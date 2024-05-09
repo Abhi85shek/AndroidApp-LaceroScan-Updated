@@ -4,7 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const ExistStockScreen = ({route,navigation}) => {
 
-
     useLayoutEffect(() => {
         navigation.setOptions({
           title: 'Exist Stock',

@@ -8,7 +8,8 @@ const SelectCompanyScreen = () => {
   const [selectedCompany, setSelectedCompany] = useState("2");
 
   const handleContinue = () => {
-    const user = navigation.getParam('user', {});
+    // const user = navigation.getParam('user', {});
+    const user = route.params;
     navigation.navigate('NewItem', {
       user: user,
       companyId: selectedCompany

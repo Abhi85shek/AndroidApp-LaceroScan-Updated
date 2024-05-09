@@ -1,5 +1,5 @@
 import React, { useState,useLayoutEffect } from 'react';
-import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator } from 'react-native';
 import FloatingLabelInput from './cell/floatingLabelInput';
 import { DOMAIN_URL } from "../config/config";
 import axios from 'axios';
@@ -7,6 +7,7 @@ import axios from 'axios';
 const LogInScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -33,27 +34,6 @@ const LogInScreen = ({ navigation }) => {
             password: password
         };
 
-     
-        // try {
-        //     const response = await axios.post(`${DOMAIN_URL}/login`,data,{
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         }
-        //     });
-        //     console.log(response);
-        //     if (response.status === 200) {
-        //         console.log(response.data);
-        //         navigation.navigate('Home', { user: response.data.data });
-        //       } else if (response.status ===  404 )
-        //         {
-        //         console.log(response.data.message);
-        //         Alert.alert("Invalid Credentials");
-        //       }
-        //     } catch (error) {
-        //       console.error(error);
-        //       console.log("error");
-        //     }
-
         fetch(`${DOMAIN_URL}/login`, {
             method: 'POST',
             headers: {
@@ -64,7 +44,7 @@ const LogInScreen = ({ navigation }) => {
         })
         .then((response) => Promise.all([response.status.toString(), response.json()]))
         .then((res) => {
-            console.log(res);
+            setLoading(false);
             if (res[0] === '200') {
                 console.log(res);
                 navigation.navigate('Home', { user: res[1].data });
@@ -73,6 +53,7 @@ const LogInScreen = ({ navigation }) => {
             }
         })
         .catch((error) => {
+            setLoading(false);
             console.log("error");
             console.error(error);
         });
@@ -80,6 +61,11 @@ const LogInScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            {loading && (
+                <View style={styles.overlay}>
+                    <ActivityIndicator size="large" color="red" /> {/* Activity indicator */}
+                </View>
+            )}
             <View style={styles.inputContainer}>
                 <FloatingLabelInput
                     label="User Name"
@@ -92,11 +78,12 @@ const LogInScreen = ({ navigation }) => {
                     value={password}
                     onChangeText={(text) => setPassword(text)}
                 />
+
                 <TouchableOpacity
                     style={styles.logInButton}
                     onPress={handleLogin}
                 >
-                    <Text style={styles.buttonText}> LOGIN </Text>
+                    <Text style={styles.buttonText}> Login </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -127,7 +114,12 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 30,
         fontWeight: 'bold'
-    }
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });
 
 export default LogInScreen;

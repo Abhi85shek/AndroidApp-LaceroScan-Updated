@@ -1,7 +1,7 @@
 import React,{useLayoutEffect} from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
-const NewStockScreen = ({ navigation }) => {
+const NewStockScreen = ({ route,navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -23,12 +23,14 @@ const NewStockScreen = ({ navigation }) => {
       }, [navigation]);
 
     const handleShipmentSkid = () => {
-        const user = navigation.getParam('user', {});
+        const user = route.params;
+        // const user = navigation.getParam('user', {});
         navigation.navigate('NewShipmentSKID', { user });
     };
 
     const handleItem = () => {
-        const user = navigation.getParam('user', {});
+        const user = route.params;
+        // const user = navigation.getParam('user', {});
         navigation.navigate('SelectCompany', { user });
     };
 
