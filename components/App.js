@@ -12,7 +12,7 @@ import SelectCompanyScreen from './NewStock/SelectCompanyScreen';
 import NewItemScreen from './NewStock/NewItemScreen';
 import ExistStockScreen from './ExistStock/ExistStockScreen';
 // // import ProcessItemScreen from './ExistStock/ProcessItemScreen';
-// // import ProcessSkidScreen from './ExistStock/ProcessSkidScreen';
+import ProcessSkidScreen from './ExistStock/ProcessSkidScreen';
 
 const Stack = createStackNavigator();
 
@@ -27,8 +27,8 @@ const App = () => {
         <Stack.Screen name="SelectCompany" component={SelectCompanyScreen} />
         <Stack.Screen name="NewItem" component={NewItemScreen} />
         <Stack.Screen name="ExistStock" component={ExistStockScreen} />
-        {/* <Stack.Screen name="ProcessItem" component={ProcessItemScreen} />
-        <Stack.Screen name="ProcessSkid" component={ProcessSkidScreen} />   */}
+        {/* <Stack.Screen name="ProcessItem" component={ProcessItemScreen} /> */}
+        <Stack.Screen name="ProcessSkid" component={ProcessSkidScreen} />   
       </Stack.Navigator>
     </NavigationContainer>
   );
