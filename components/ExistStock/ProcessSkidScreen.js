@@ -12,7 +12,6 @@ const ProcessSkidScreen = ({ route,navigation }) => {
     const [itemCode, setItemCode] = useState('');
     const [scanned, setScanned] = useState(false);
     const [token, setToken] = useState(undefined);
-    const [appState, setAppState] = useState(AppState.currentState);
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const success = useRef(new Sound('success.wav'));
@@ -130,7 +129,9 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                                             });
                                         });
                                         // success.current().play();
-                                        setAppState({ scanning: false, scanned: false, itemCode: '' });
+                                        setScanned(false);
+                                        setItemCode('');
+                                        // setAppState({ scanning: false, scanned: false, itemCode: '' });
                                         navigateToProcessItemScreen(responseSkidDetail.data, productsInSkid);
                                     }
                                 })
@@ -142,14 +143,25 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                                 // fail.play();
                                 Alert.alert(
                                     'Alert!', 'Please Receive the SKID first before you start scanning items!',
-                                    [{ text: "OK", onPress: () => setAppState({ scanning: false, scanned: false, itemCode: '' }) }]
+                                    [{ text: "OK", onPress: () =>{
+                                        setItemCode('');
+                                        setScanned(false);
+                                        // setAppState({ scanning: false, scanned: false, itemCode: '' })
+                                    }
+                                     }]
                                 );
                                 setScanned(false);
                             } else if (responseSkidDetail.data.close_status === "Closed" || responseSkidDetail.data.close_status === "Close") {
                                 // fail.play();
                                 Alert.alert(
                                     'Alert!', 'SKID is already closed!',
-                                    [{ text: "OK", onPress: () => setAppState({ scanning: false, scanned: false, itemCode: '' }) }]
+                                    [{ text: "OK", onPress: () => 
+                                            {
+                                                setItemCode('');
+                                                setScanned(false);
+                                            }
+                                        // setAppState({ scanning: false, scanned: false, itemCode: '' })
+                                     }]
                                 );
                                 setScanned(false);
                             } else {
@@ -177,7 +189,13 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                                     Alert.alert(
                                         responseSkidDetail.message,
                                         (responseSkidDetail.data.process_status) ? `SKID IN: ${responseSkidDetail.data.process_status} Status!` : '',
-                                        [{ text: "OK", onPress: () => setAppState({ scanning: false, scanned: false, itemCode: '' }) }]
+                                        [{ text: "OK", onPress: () => 
+                                                {
+                                                    setItemCode('');
+                                                    setScanned(false);
+                                                }
+                                            // setAppState({ scanning: false, scanned: false, itemCode: '' })
+                                         }]
                                     );
                                 }
                             }
@@ -185,7 +203,8 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                     })
                     .catch((error) => {
                         console.error(error);
-                        setAppState({ itemCode: '', scanned: false });
+                        setItemCode('');
+                        // setAppState({ itemCode: '', scanned: false });
                         setScanned(false);
                         // myField2.focus();
                     });

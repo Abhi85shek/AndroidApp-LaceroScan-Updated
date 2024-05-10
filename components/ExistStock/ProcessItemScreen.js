@@ -34,11 +34,11 @@ const ProcessItemScreen = ({ navigation,route}) => {
     const [password, setPassword] = useState("");
     const inputRefs = useRef([]);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
       navigation.setOptions({
-        title: `${route.params.name} ? ${route.params.name} : "Processing Items" `,
+        title: route.params.name,
         headerStyle: {
-          backgroundColor: `${selectedBackgroundColor}`,
+          backgroundColor: route.params.color,
           height: 80
         },
         headerTitleStyle: {
@@ -51,7 +51,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
           textAlignVertical: 'center'
         }
       });
-    }, [navigation]);
+    }, [navigation,selectedBackgroundColor,selectedProductName]);
 
     const fetchData = async () => {
         const token = await AsyncStorage.getItem('token');
@@ -127,6 +127,8 @@ const ProcessItemScreen = ({ navigation,route}) => {
     
       useEffect(() => {
         const beforeRemoveListener = navigation.addListener('beforeRemove', (e) => {
+          console.log(e);
+          console.log(items[0].barCode)
           e.preventDefault();
           if (items[0].barCode !== "") {
             Alert.alert(
@@ -210,7 +212,6 @@ const ProcessItemScreen = ({ navigation,route}) => {
               if (responseJson.data.totalProcessed && responseJson.data.totalProcessed >= JSON.parse(skid).units) {
                 var message = "";
                 if (responseJson.data.createdList) {
-                  console.log("BArCode Scanned");
                   message = "\n" + responseJson.data.createdList.length + " barcodes scanned :\n\n"
 
                   responseJson.data.createdList.map(value => {
@@ -291,13 +292,13 @@ const ProcessItemScreen = ({ navigation,route}) => {
                     message = message.concat(" ", "    " + value + " \n");
                   })
                 }
-                message = message.concat(" ", "\nContinue Scanning " + this.state.selectedProductName + " ?");
+                message = message.concat(" ", "\nContinue Scanning " + selectedProductName + " ?");
 
 
                 Alert.alert(
                   `Process Results - Total Created: ${responseJson.data.totalCreated
                   }`,
-                  message,
+                  `"${message}"`,
                   [
                     {
                       text: "YES",
@@ -748,6 +749,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
                                     {
                                       text: "NO",
                                       onPress: () => {
+                                        setScanned(false);
           
                                       }
           
@@ -755,7 +757,8 @@ const ProcessItemScreen = ({ navigation,route}) => {
                                       text: "YES",
                                       onPress: () => {
           
-          
+                                        // console.log(product.productName);
+                                        setSelectedProductName(product.productName);
                                         navigation.navigate('ProcessItem', {
                                           name: `PROCESSING ` + product.productName,
                                           color: backgroundColors[
