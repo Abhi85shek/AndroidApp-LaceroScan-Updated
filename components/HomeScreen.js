@@ -1,13 +1,9 @@
-import React,{useLayoutEffect} from 'react';
+import React,{useEffect, useLayoutEffect} from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const HomeScreen = ({ route, navigation }) => {
 
-    const para = route.params;
-
-   
-    // const navigation = useNavigation();
-    
     useLayoutEffect(() => {
         navigation.setOptions({
           title: 'Choose Type',
@@ -26,6 +22,22 @@ const HomeScreen = ({ route, navigation }) => {
           }
         });
       }, [navigation]);
+
+    useEffect(()=>{
+        let isMounted = true;
+        const setAsyncStorageData = async () => {
+            await AsyncStorage.setItem('userName', route.params.user.email);
+            await AsyncStorage.setItem('password', route.params.user.password);
+            await AsyncStorage.setItem('token', route.params.user.token);
+        };
+    
+        setAsyncStorageData();
+        return () => {
+            isMounted = false; // Set the flag to indicate unmounting
+            // Any cleanup code, if needed
+        };
+
+    },[]);
 
     const handleNewStock = () => {
       

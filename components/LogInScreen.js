@@ -1,8 +1,8 @@
 import React, { useState,useLayoutEffect } from 'react';
 import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator } from 'react-native';
 import FloatingLabelInput from './cell/floatingLabelInput';
+
 import { DOMAIN_URL } from "../config/config";
-import axios from 'axios';
 
 const LogInScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('');
@@ -46,7 +46,7 @@ const LogInScreen = ({ navigation }) => {
         .then((res) => {
             setLoading(false);
             if (res[0] === '200') {
-                console.log(res);
+            
                 navigation.navigate('Home', { user: res[1].data });
             } else {
                 Alert.alert(res[1].message,"Please Check Your Credentials");
@@ -54,7 +54,6 @@ const LogInScreen = ({ navigation }) => {
         })
         .catch((error) => {
             setLoading(false);
-            console.log("error");
             console.error(error);
         });
     };
