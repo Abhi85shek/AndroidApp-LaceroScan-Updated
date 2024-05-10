@@ -29,6 +29,8 @@ const LogInScreen = ({ navigation }) => {
       }, [navigation]);
 
     const handleLogin = async () => {
+
+        setLoading(true);
         const data = {
             email: userName,
             password: password
@@ -62,9 +64,10 @@ const LogInScreen = ({ navigation }) => {
         <View style={styles.container}>
             {loading && (
                 <View style={styles.overlay}>
-                    <ActivityIndicator size="large" color="red" /> {/* Activity indicator */}
+                     <ActivityIndicator size="large" color="red" />
                 </View>
             )}
+           
             <View style={styles.inputContainer}>
                 <FloatingLabelInput
                     label="User Name"
@@ -103,7 +106,7 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     logInButton: {
-        top: 150,
+        top: 80,
         position: 'relative',
         backgroundColor: '#1baeff',
         alignItems: 'center',
