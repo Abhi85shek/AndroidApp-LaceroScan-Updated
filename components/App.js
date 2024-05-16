@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-
+import { createDrawerNavigator } from '@react-navigation/drawer';
 // // Import your screen components
 import HomeScreen from './HomeScreen';
 
@@ -16,11 +16,14 @@ import ProcessSkidScreen from './ExistStock/ProcessSkidScreen';
 
 const Stack = createStackNavigator();
 
+
 const App = () => {
+  const Drawer = createDrawerNavigator()
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="LogIn">
         <Stack.Screen name="LogIn" component={LogInScreen} />
+      
         <Stack.Screen name="Home" component={HomeScreen} />
          <Stack.Screen name="NewStock" component={NewStockScreen} />
          <Stack.Screen name="NewShipmentSKID" component={NewShipmentSKIDScreen} />

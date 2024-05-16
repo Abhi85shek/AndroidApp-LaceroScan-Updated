@@ -1,9 +1,13 @@
-import React,{useEffect, useLayoutEffect} from 'react';
+import React,{useEffect, useLayoutEffect, useState} from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const HomeScreen = ({ route, navigation }) => {
 
+    // const [loginTime,setLoginTime]= useState(null);
+
+    console.log(route.params.user.firstName);
     useLayoutEffect(() => {
         navigation.setOptions({
           title: 'Choose Type',
@@ -19,7 +23,13 @@ const HomeScreen = ({ route, navigation }) => {
             flex: 1,
             fontWeight: 'bold',
             textAlignVertical: 'center'
-          }
+          },headerRight: () => (
+            <TouchableOpacity>
+                <View>
+                    <Text>{route.params.user.firstName}</Text>
+                </View>
+            </TouchableOpacity>
+        )
         });
       }, [navigation]);
 
@@ -29,6 +39,7 @@ const HomeScreen = ({ route, navigation }) => {
             await AsyncStorage.setItem('userName', route.params.user.email);
             await AsyncStorage.setItem('password', route.params.user.password);
             await AsyncStorage.setItem('token', route.params.user.token);
+            // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
         };
     
         setAsyncStorageData();
@@ -38,6 +49,18 @@ const HomeScreen = ({ route, navigation }) => {
         };
 
     },[]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const time = await AsyncStorage.getItem('loginTime');
+    //             setLoginTime(time ? new Date(parseInt(time)).toLocaleString() : null);
+    //         } catch (error) {
+    //             console.error('Error fetching login time:', error);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, []);
 
     const handleNewStock = () => {
       
@@ -53,6 +76,7 @@ const HomeScreen = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.inputContainer}>
+          
                 <TouchableOpacity
                     style={styles.button}
                     onPress={handleNewStock}

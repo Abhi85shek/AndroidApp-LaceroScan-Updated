@@ -1,4 +1,4 @@
-import React,{useLayoutEffect} from 'react';
+import React,{useLayoutEffect, useState,useEffect} from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 
 const NewStockScreen = ({ route,navigation }) => {

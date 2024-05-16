@@ -11,7 +11,7 @@ const LogInScreen = ({ navigation }) => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-          title: 'Login',
+          title: 'Lacero Scan',
           headerStyle: {
             backgroundColor: '#1bb5d8',
             height: 80
@@ -61,7 +61,8 @@ const LogInScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} className="bg-black">
+            
             {loading && (
                 <View style={styles.overlay}>
                      <ActivityIndicator size="large" color="red" />
