@@ -7,7 +7,6 @@ const HomeScreen = ({ route, navigation }) => {
 
     // const [loginTime,setLoginTime]= useState(null);
 
-    console.log(route.params.user.firstName);
     useLayoutEffect(() => {
         navigation.setOptions({
           title: 'Choose Type',
@@ -23,13 +22,7 @@ const HomeScreen = ({ route, navigation }) => {
             flex: 1,
             fontWeight: 'bold',
             textAlignVertical: 'center'
-          },headerRight: () => (
-            <TouchableOpacity>
-                <View>
-                    <Text>{route.params.user.firstName}</Text>
-                </View>
-            </TouchableOpacity>
-        )
+          }
         });
       }, [navigation]);
 

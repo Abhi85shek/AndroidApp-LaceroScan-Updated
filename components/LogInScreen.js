@@ -4,7 +4,7 @@ import FloatingLabelInput from './cell/floatingLabelInput';
 
 import { DOMAIN_URL } from "../config/config";
 
-const LogInScreen = ({ navigation }) => {
+const LogInScreen = ({ navigation,setIsAuthenticated }) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -16,6 +16,7 @@ const LogInScreen = ({ navigation }) => {
             backgroundColor: '#1bb5d8',
             height: 80
           },
+          headerTitleAlign:"center",
           headerTitleStyle: {
             fontSize: 30,
             alignSelf: 'center',
@@ -48,8 +49,8 @@ const LogInScreen = ({ navigation }) => {
         .then((res) => {
             setLoading(false);
             if (res[0] === '200') {
-            
                 navigation.navigate('Home', { user: res[1].data });
+                setIsAuthenticated(true);
             } else {
                 Alert.alert(res[1].message,"Please Check Your Credentials");
             }
