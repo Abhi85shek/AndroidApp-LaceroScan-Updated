@@ -1,9 +1,7 @@
-import React,{useState
-} from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer,useNavigation,DrawerActions } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Icon from "react-native-vector-icons/Entypo";
 // // Import your screen components
 import HomeScreen from './HomeScreen';
 
@@ -17,28 +15,13 @@ import ProcessItemScreen from './ExistStock/ProcessItemScreen';
 import ProcessSkidScreen from './ExistStock/ProcessSkidScreen';
 
 
-const Stack = createStackNavigator();
+
 
 const StackNavigation = ()=>{
-  const navigation = useNavigation();
-  
+  const Stack = createStackNavigator();
   return (
-    <Stack.Navigator
-    screenOptions={
-    {
-      headerRight: ()=>{
-        return (
-            <Icon 
-              name="menu"
-              onPress={()=>navigation.dispatch(DrawerActions.openDrawer())}
-              size={30}
-              color="#fff"
-            />
-        )
-      }
-    }
-  }
-    >
+    <Stack.Navigator initialRouteName="LogIn">
+        <Stack.Screen name="LogIn" component={LogInScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={HomeScreen} />
          <Stack.Screen name="NewStock" component={NewStockScreen} />
          <Stack.Screen name="NewShipmentSKID" component={NewShipmentSKIDScreen} />
@@ -53,37 +36,13 @@ const StackNavigation = ()=>{
 };
 
 
-const DrawerNavigation = ()=>{
-
-  const Drawer = createDrawerNavigator();
-
-  return (
-    <Drawer.Navigator screenOptions=
-    {{drawerPosition:"right",
-      headerShown:false
-    }}
-    >
-          <Drawer.Screen name="Test" component={StackNavigation} />
-    </Drawer.Navigator>
-  )
-
-};
-
-
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const Drawer = createDrawerNavigator()
   return (
     <NavigationContainer>
-          {isAuthenticated ? (
-        <DrawerNavigation />
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen name="LogIn">
-            {(props) => <LogInScreen {...props} setIsAuthenticated={setIsAuthenticated} />}
-          </Stack.Screen>
-        </Stack.Navigator>
-      )}
+          <Drawer.Navigator screenOptions={{headerShown:false}}>
+              <Drawer.Screen name='Root' component={StackNavigation}/>
+          </Drawer.Navigator>
     </NavigationContainer>
   );
 };

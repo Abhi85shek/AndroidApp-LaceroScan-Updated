@@ -1,11 +1,14 @@
 import React,{useEffect, useLayoutEffect, useState} from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity,Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { DOMAIN_URL } from "../config/config";
+
 const HomeScreen = ({ route, navigation }) => {
 
-    // const [loginTime,setLoginTime]= useState(null);
+    console.log(route.params);
+    const [loginTime,setLoginTime]= useState(null);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -26,7 +29,47 @@ const HomeScreen = ({ route, navigation }) => {
         });
       }, [navigation]);
 
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+    const day = String(now.getDate()).padStart(2, '0');
+    const dateOnly = `${year}-${month}-${day}`;
+
+    const timeOnly = now.toLocaleTimeString();
+    console.log(timeOnly)
+    const operatorLoginTime = async ()=>{
+
+        const data = {
+
+            opeatorId : route.params.user.id,
+            role:route.params.user.role,
+            loginTime:timeOnly,
+            date:dateOnly
+
+        }
+
+        fetch(`${DOMAIN_URL}/insertOperatorLoginTime`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+
+        }) .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    };
+
+
     useEffect(()=>{
+        
+        if(route.params.user.role == "operator")
+            {
+            operatorLoginTime();
+            }
         let isMounted = true;
         const setAsyncStorageData = async () => {
             await AsyncStorage.setItem('userName', route.params.user.email);
@@ -42,18 +85,18 @@ const HomeScreen = ({ route, navigation }) => {
         };
 
     },[]);
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const time = await AsyncStorage.getItem('loginTime');
-    //             setLoginTime(time ? new Date(parseInt(time)).toLocaleString() : null);
-    //         } catch (error) {
-    //             console.error('Error fetching login time:', error);
-    //         }
-    //     };
+        useEffect(() => {
+            const fetchData = async () => {
+                try {
+                    const time = await AsyncStorage.getItem('loginTime');
+                    setLoginTime(time ? new Date(parseInt(time)).toLocaleString() : null);
+                } catch (error) {
+                    console.error('Error fetching login time:', error);
+                }
+            };
 
-    //     fetchData();
-    // }, []);
+            fetchData();
+        }, []);
 
     const handleNewStock = () => {
       

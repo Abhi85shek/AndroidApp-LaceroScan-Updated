@@ -1,33 +1,34 @@
 import React, { useState,useLayoutEffect } from 'react';
-import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator } from 'react-native';
+import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator,Image } from 'react-native';
 import FloatingLabelInput from './cell/floatingLabelInput';
 
 import { DOMAIN_URL } from "../config/config";
+// import { Image } from 'react-native-reanimated/lib/typescript/Animated';
 
-const LogInScreen = ({ navigation,setIsAuthenticated }) => {
+const LogInScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-          title: 'Lacero Scan',
-          headerStyle: {
-            backgroundColor: '#1bb5d8',
-            height: 80
-          },
-          headerTitleAlign:"center",
-          headerTitleStyle: {
-            fontSize: 30,
-            alignSelf: 'center',
-            textAlign: 'center',
-            justifyContent: 'center',
-            flex: 1,
-            fontWeight: 'bold',
-            textAlignVertical: 'center'
-          }
-        });
-      }, [navigation]);
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //       title: 'Lacero Scan',
+    //       headerStyle: {
+    //         backgroundColor: '#1bb5d8',
+    //         height: 80
+    //       },
+    //       headerTitleAlign:"center",
+    //       headerTitleStyle: {
+    //         fontSize: 30,
+    //         alignSelf: 'center',
+    //         textAlign: 'center',
+    //         justifyContent: 'center',
+    //         flex: 1,
+    //         fontWeight: 'bold',
+    //         textAlignVertical: 'center'
+    //       }
+    //     });
+    //   }, [navigation]);
 
     const handleLogin = async () => {
 
@@ -50,7 +51,6 @@ const LogInScreen = ({ navigation,setIsAuthenticated }) => {
             setLoading(false);
             if (res[0] === '200') {
                 navigation.navigate('Home', { user: res[1].data });
-                setIsAuthenticated(true);
             } else {
                 Alert.alert(res[1].message,"Please Check Your Credentials");
             }
@@ -62,34 +62,45 @@ const LogInScreen = ({ navigation,setIsAuthenticated }) => {
     };
 
     return (
-        <View style={styles.container} className="bg-black">
-            
-            {loading && (
-                <View style={styles.overlay}>
+        <View style={styles.container} className="p-5">
+                <View className="flex justify-center items-center">
+                <Image  className="w-40 h-40 justify-center item-center" source={require("./Assets/laceroLogo.png")}/>
+                <Text className="text-3xl text-black">Welcome back!</Text>
+                <Text className="text-gray-600 text-lg">Login to Your Account</Text>
+                </View>
+            {/* {loading && (
+                <View  style={styles.overlay}>
                      <ActivityIndicator size="large" color="red" />
                 </View>
             )}
-           
-            <View style={styles.inputContainer}>
+            */}
+
+            <View>
                 <FloatingLabelInput
-                    label="User Name"
+                    label="Email"
                     value={userName}
+                    placeholder="Enter your email"
                     onChangeText={(text) => setUserName(text)}
                 />
                 <FloatingLabelInput
                     secureTextEntry={true}
+                    placeholder="Enter password"
                     label="Password"
                     value={password}
+                
                     onChangeText={(text) => setPassword(text)}
                 />
-
+                <View className="flex items-end mt-5">
+                <Text className="text-blue-600">Forget Password?</Text>
+                </View>
                 <TouchableOpacity
-                    style={styles.logInButton}
+                    className="bg-blue-700 p-4 rounded-full top-10"
                     onPress={handleLogin}
                 >
-                    <Text style={styles.buttonText}> Login </Text>
+                    <Text className="text-white text-center text-lg"> Login </Text>
                 </TouchableOpacity>
             </View>
+            
         </View>
     );
 };
