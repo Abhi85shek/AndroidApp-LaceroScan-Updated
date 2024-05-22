@@ -1,7 +1,10 @@
 import React from 'react';
+import {View} from "react-native";
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useNavigation,DrawerActions } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import Icon from "react-native-vector-icons/Entypo";
+
 // // Import your screen components
 import HomeScreen from './HomeScreen';
 
@@ -13,14 +16,29 @@ import NewItemScreen from './NewStock/NewItemScreen';
 import ExistStockScreen from './ExistStock/ExistStockScreen';
 import ProcessItemScreen from './ExistStock/ProcessItemScreen';
 import ProcessSkidScreen from './ExistStock/ProcessSkidScreen';
+import DrawerContent from './DrawerNavigator/DrawerContent';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 
 
 const StackNavigation = ()=>{
   const Stack = createStackNavigator();
+  const navigation = useNavigation();
   return (
-    <Stack.Navigator initialRouteName="LogIn">
+    <Stack.Navigator initialRouteName="LogIn" screenOptions={
+      {
+        headerRight:()=>{
+          return (
+              <TouchableOpacity  className="mr-5">
+              <Icon name="menu" size={30}  color="#000"  
+              onPress={()=>navigation.dispatch(DrawerActions.openDrawer)}
+              />
+              </TouchableOpacity>
+          )
+        }
+      }
+    }>
         <Stack.Screen name="LogIn" component={LogInScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Home" component={HomeScreen} />
          <Stack.Screen name="NewStock" component={NewStockScreen} />
@@ -35,14 +53,23 @@ const StackNavigation = ()=>{
 
 };
 
+const DrawerNavigation = ()=>{
+
+  const Drawer = createDrawerNavigator();
+  return (
+    <Drawer.Navigator 
+    drawerContent={(props)=> <DrawerContent {...props}/>} screenOptions={{headerShown:false}}>
+      <Drawer.Screen name='Root' component={StackNavigation}/>
+  </Drawer.Navigator>
+  )
+
+};
 
 const App = () => {
-  const Drawer = createDrawerNavigator()
+ 
   return (
     <NavigationContainer>
-          <Drawer.Navigator screenOptions={{headerShown:false}}>
-              <Drawer.Screen name='Root' component={StackNavigation}/>
-          </Drawer.Navigator>
+            <DrawerNavigation />
     </NavigationContainer>
   );
 };

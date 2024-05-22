@@ -1,7 +1,7 @@
 import React, { useState,useLayoutEffect } from 'react';
 import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator,Image } from 'react-native';
 import FloatingLabelInput from './cell/floatingLabelInput';
-
+import Icon from "react-native-vector-icons/Entypo";
 import { DOMAIN_URL } from "../config/config";
 // import { Image } from 'react-native-reanimated/lib/typescript/Animated';
 
@@ -9,6 +9,7 @@ const LogInScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showPassword,setShowPassword] = useState(false);
 
     // useLayoutEffect(() => {
     //     navigation.setOptions({
@@ -68,12 +69,12 @@ const LogInScreen = ({ navigation }) => {
                 <Text className="text-3xl text-black">Welcome back!</Text>
                 <Text className="text-gray-600 text-lg">Login to Your Account</Text>
                 </View>
-            {/* {loading && (
+            {loading && (
                 <View  style={styles.overlay}>
                      <ActivityIndicator size="large" color="red" />
                 </View>
             )}
-            */}
+           
 
             <View>
                 <FloatingLabelInput
@@ -83,13 +84,22 @@ const LogInScreen = ({ navigation }) => {
                     onChangeText={(text) => setUserName(text)}
                 />
                 <FloatingLabelInput
-                    secureTextEntry={true}
+                    secureTextEntry={!showPassword}
                     placeholder="Enter password"
                     label="Password"
                     value={password}
-                
                     onChangeText={(text) => setPassword(text)}
                 />
+                <View className="relative">
+                <TouchableOpacity
+                    // style={styles.toggleIcon}
+                    className="absolute right-4 bottom-5"
+                    onPress={() => setShowPassword(!showPassword)}
+                >
+                    <Icon name={showPassword ? 'eye-with-line' : 'eye'} size={20} color="gray" />
+                    {/* <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={20} color="gray" /> */}
+                </TouchableOpacity>  
+                </View>
                 <View className="flex items-end mt-5">
                 <Text className="text-blue-600">Forget Password?</Text>
                 </View>

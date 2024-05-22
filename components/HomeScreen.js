@@ -2,6 +2,7 @@ import React,{useEffect, useLayoutEffect, useState} from 'react';
 import { View, Text, StyleSheet, Dimensions, TouchableOpacity,Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 import { DOMAIN_URL } from "../config/config";
 
@@ -65,7 +66,11 @@ const HomeScreen = ({ route, navigation }) => {
 
 
     useEffect(()=>{
-        
+        Toast.show({
+            type: 'success',
+            text1: 'Login Sucessfull',
+            text2: `Welcome ${route.params.user.firstName}👋`
+          });
         if(route.params.user.role == "operator")
             {
             operatorLoginTime();
@@ -127,6 +132,7 @@ const HomeScreen = ({ route, navigation }) => {
                     <Text style={styles.buttonText}> Exist Stock </Text>
                 </TouchableOpacity>
             </View>
+            <Toast />
         </View>
     );
 };

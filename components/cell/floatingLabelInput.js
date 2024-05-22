@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
-
+import { View, Text, TextInput,TouchableOpacity } from 'react-native';
+import Icon from "react-native-vector-icons/Entypo"
 const FloatingLabelInput = ({ label, placeholder ,value, ...props}) => {
     const [isFocused, setIsFocused] = useState(false);
 
@@ -30,10 +30,12 @@ const FloatingLabelInput = ({ label, placeholder ,value, ...props}) => {
                 //     borderBottomColor: '#555',
                 //     marginTop: 25
                 // }}
-                className="h-30 bg-gray-100 rounded-full p-4 text-xl"
+                className="h-30 bg-gray-100 rounded-full  pl-5 p-4 text-xl"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+
             />
+      
         </View>
     );
 };
