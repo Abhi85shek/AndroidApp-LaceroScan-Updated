@@ -78,6 +78,7 @@ const HomeScreen = ({ route, navigation }) => {
         let isMounted = true;
         const setAsyncStorageData = async () => {
             await AsyncStorage.setItem('userName', route.params.user.email);
+            await AsyncStorage.setItem("name",route.params.user.firstName);
             await AsyncStorage.setItem('password', route.params.user.password);
             await AsyncStorage.setItem('token', route.params.user.token);
             // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
