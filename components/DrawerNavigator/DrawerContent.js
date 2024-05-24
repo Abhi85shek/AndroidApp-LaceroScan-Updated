@@ -39,6 +39,7 @@ function DrawerContent({navigation,...props}) {
             role:"operator"
 
         }
+        // Testing Is DOne
 
         fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
             method: 'POST',
