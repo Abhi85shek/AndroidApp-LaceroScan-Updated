@@ -152,9 +152,9 @@ const ProcessItemScreen = ({ navigation,route}) => {
           }
         });
     
-        // return () => {
-        //   beforeRemoveListener.remove();
-        // };
+        return () => {
+          beforeRemoveListener();
+        };
       }, [items]);
     
       const callHandleUpdateStatus = async (token) => {
