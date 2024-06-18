@@ -10,12 +10,14 @@ function DrawerContent({navigation,...props}) {
 
     const [userName,setUserName] = useState("");
     const [email,setEmail] = useState("");
-    
+    const [operatorId,setOperatorId] = useState(0);
     const fetchData = async () => {
         const name = await AsyncStorage.getItem('name');
         const email = await AsyncStorage.getItem('userName');
+        const operatorID = await AsyncStorage.getItem('operatorID');
         setUserName(name);
         setEmail(email);
+        setOperatorId(operatorID);
         
       };
 
@@ -36,7 +38,9 @@ function DrawerContent({navigation,...props}) {
         const data = {
 
             date:dateOnly,
-            role:"operator"
+            role:"operator",
+            operatorId:operatorId
+            // operatorID:
 
         }
         // Testing Is DOne

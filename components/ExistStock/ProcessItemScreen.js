@@ -144,7 +144,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
                   text: 'Go Back',
                   style: 'destructive',
                   onPress: () => navigation.dispatch(e.data.action),
-                },
+                }
               ]
             );
           } else {
@@ -238,12 +238,12 @@ const ProcessItemScreen = ({ navigation,route}) => {
                       onPress: () =>
                             {
                         setItems([
-                            { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                            { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                            { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                            { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                            { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                            { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' }
+                            { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                            { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                            { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                            { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                            { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                            { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' }
                         ]);
                         setScanned(false);
                         setWarning(true);
@@ -257,12 +257,12 @@ const ProcessItemScreen = ({ navigation,route}) => {
                       onPress: () => {
                         {
                             setItems([
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' }
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' }
                             ]);
                             setScanned(false);
                             setWarning(true);
@@ -305,12 +305,12 @@ const ProcessItemScreen = ({ navigation,route}) => {
                       onPress: () => 
                         {
                             setItems([
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' }
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' }
                             ]);
                             setScanned(false);
                             setTotalProcessed(responseJson.data.totalProcessed);
@@ -324,12 +324,12 @@ const ProcessItemScreen = ({ navigation,route}) => {
                       onPress: () => {
                         {
                             setItems([
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                                { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' }
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                                { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' }
                             ]);
                             setScanned(false);
                             setTotalProcessed(responseJson.data.totalProcessed);
@@ -416,12 +416,12 @@ const ProcessItemScreen = ({ navigation,route}) => {
                 text: "YES",
                 onPress: () => {
                     setItems([
-                        { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                        { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                        { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                        { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                        { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' },
-                        { barCode: '', status: 'SUCCESSFULLY_DEACTIVATED' }
+                        { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                        { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                        { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                        { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                        { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' },
+                        { barCode: "", status: 'SUCCESSFULLY_DEACTIVATED' }
                     ]);
                     setScanned(false);
                 }

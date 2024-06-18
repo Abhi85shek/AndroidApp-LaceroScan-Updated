@@ -71,6 +71,7 @@ const HomeScreen = ({ route, navigation }) => {
             text1: 'Login Sucessfull',
             text2: `Welcome ${route.params.user.firstName}👋`
           });
+
         if(route.params.user.role == "operator")
             {
             operatorLoginTime();
@@ -81,6 +82,7 @@ const HomeScreen = ({ route, navigation }) => {
             await AsyncStorage.setItem("name",route.params.user.firstName);
             await AsyncStorage.setItem('password', route.params.user.password);
             await AsyncStorage.setItem('token', route.params.user.token);
+            await AsyncStorage.setItem('operatorID',JSON.stringify(route.params.user.id));
             // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
         };
     

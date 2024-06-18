@@ -36,7 +36,7 @@ const NewItemScreen = ({ navigation }) => {
         setScanned(true);
         Keyboard.dismiss();
         const barCode = itemCode;
-        let totalScannedValue = totalScanned;
+        // let totalScannedValue = totalScanned;
 
         const data = {
             "data": {
@@ -58,26 +58,30 @@ const NewItemScreen = ({ navigation }) => {
         .then((responseJson) => {
             if (responseJson.message === "Record Create Successfully") {
                 success.play();
-                totalScannedValue += 1;
+                setTotalScanned((previous)=>{
+                    
+                    return previous + 1;
+                });
             } else {
                 fail.play();
                 fail.play();
             }
             Alert.alert(
+                console.log(totalScanned),
                 responseJson.message,
-                `Total Scanned: ${totalScannedValue}`,
+                `Total Scanned: ${totalScanned}`,
                 [{ text: "OK", onPress: () => setScanned(false) }]
             );
             setItemCode('');
             setScanned(false);
-            setTotalScanned(totalScannedValue);
+            // setTotalScanned(totalScanned);
             myField2.focus();
         })
         .catch((error) => {
             console.error(error);
             setItemCode('');
             setScanned(false);
-            setTotalScanned(totalScannedValue);
+            // setTotalScanned(totalScanned);
             myField2.focus();
         });
     };
@@ -97,7 +101,7 @@ const NewItemScreen = ({ navigation }) => {
                     label="ITEM CODE"
                     value={itemCode}
                     autoFocus
-                    onKeyMultipleListener={() => alert('Keyboard Hidden')}
+                    onKeyMultipleListener={() => Alert('Keyboard Hidden')}
                     onChangeText={text => setItemCode(text)}
                 />
                 {scanned ? (
