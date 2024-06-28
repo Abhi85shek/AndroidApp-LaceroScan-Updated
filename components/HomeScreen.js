@@ -8,8 +8,9 @@ import { DOMAIN_URL } from "../config/config";
 
 const HomeScreen = ({ route, navigation }) => {
 
-    console.log(route.params);
+ 
     const [loginTime,setLoginTime]= useState(null);
+    const [timeStampID,setTimeStampID] =useState(null);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -37,7 +38,6 @@ const HomeScreen = ({ route, navigation }) => {
     const dateOnly = `${year}-${month}-${day}`;
 
     const timeOnly = now.toLocaleTimeString();
-    console.log(timeOnly)
     const operatorLoginTime = async ()=>{
 
         const data = {
@@ -56,8 +56,14 @@ const HomeScreen = ({ route, navigation }) => {
             },
             body: JSON.stringify(data)
 
-        }) .then((response) => {
-            console.log(response);
+        }).then((response) => Promise.all([response.status.toString(), response.json()]))
+         .then((res) => {
+            if (res[0] === '200') {
+                setTimeStampID(res[1].data.id);
+                // navigation.navigate('Home', { user: res[1].data });
+            } 
+
+            // console.log(response[0]);
         })
         .catch((error) => {
             console.error(error);
@@ -83,6 +89,8 @@ const HomeScreen = ({ route, navigation }) => {
             await AsyncStorage.setItem('password', route.params.user.password);
             await AsyncStorage.setItem('token', route.params.user.token);
             await AsyncStorage.setItem('operatorID',JSON.stringify(route.params.user.id));
+            await AsyncStorage.setItem('workingHours',JSON.stringify(route.params.user.workingHours));
+            await AsyncStorage.setItem("timeStampID",JSON.stringify(timeStampID));
             // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
         };
     

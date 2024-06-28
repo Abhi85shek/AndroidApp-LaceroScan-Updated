@@ -11,15 +11,23 @@ function DrawerContent({navigation,...props}) {
     const [userName,setUserName] = useState("");
     const [email,setEmail] = useState("");
     const [operatorId,setOperatorId] = useState(0);
+    const [workHour,setWorkHour] = useState("");
+    const [timeStampId,setTimeStampId] = useState(null);
+
     const fetchData = async () => {
         const name = await AsyncStorage.getItem('name');
         const email = await AsyncStorage.getItem('userName');
         const operatorID = await AsyncStorage.getItem('operatorID');
+        const workingHours = await AsyncStorage.getItem('workingHours');
+        const timeStampID  = await AsyncStorage.getItem('timeStampID');
+        console.log(workingHours);
         setUserName(name);
         setEmail(email);
         setOperatorId(operatorID);
-        
+        setWorkHour(workingHours);
+        setTimeStampId(timeStampID);
       };
+
 
     const setAsyncStorageData = async () => {
         await AsyncStorage.removeItem('userName');
@@ -28,6 +36,7 @@ function DrawerContent({navigation,...props}) {
         // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
     };
 
+    console.log(workHour);
     const operatorLogOutTime = async ()=>{
         const now = new Date();
         const year = now.getFullYear();
@@ -39,11 +48,12 @@ function DrawerContent({navigation,...props}) {
 
             date:dateOnly,
             role:"operator",
-            operatorId:operatorId
-            // operatorID:
-
+            operatorId:operatorId,
+            timeStampId:timeStampId
+            
         }
-        // Testing Is DOne
+
+        // Testing Is Done
 
         fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
             method: 'POST',
@@ -71,8 +81,8 @@ function DrawerContent({navigation,...props}) {
         fetchData();
     },[]);
 
-    return (  
-                <DrawerContentScrollView {...props} >
+    return (
+               <DrawerContentScrollView {...props} >
                     <TouchableOpacity activeOpacity={0.8} className="mt-0 pt-0">
                         <View className="flex flex-row pt-8 pb-20 pl-3 bg-gray-100">
                                 <Avatar.Text label="AB" size={60}  />
@@ -84,19 +94,15 @@ function DrawerContent({navigation,...props}) {
                                 </View>
                         </View>
                     </TouchableOpacity>
+                    <View className="flex justify-center items-center border-t-orange-300 border-b-2 border-t-2 p-3" >
+                        <Text className="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">Maximum Working Hours</Text>
+                        <Text className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-200 dark:text-blue-800 ms-2">{workHour}</Text>
+                    </View>
                     <View>
-                        {/* <Icon name="logout"  size={30}/> */}
                         <Button onPress={signOutHandler}>Sign Out</Button>
                     </View>
-                </DrawerContentScrollView>
-                
-
-        
+                </DrawerContentScrollView>  
     )
-
-
-
-
 };
 
 export default DrawerContent;

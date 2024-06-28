@@ -3,6 +3,7 @@ import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityInd
 import FloatingLabelInput from './cell/floatingLabelInput';
 import Icon from "react-native-vector-icons/Entypo";
 import { DOMAIN_URL } from "../config/config";
+import ForgetPassword from './ForgetPassword';
 // import { Image } from 'react-native-reanimated/lib/typescript/Animated';
 
 const LogInScreen = ({ navigation }) => {
@@ -39,7 +40,7 @@ const LogInScreen = ({ navigation }) => {
             password: password
         };
 
-        fetch(`${DOMAIN_URL}/login`, {
+        fetch(`${DOMAIN_URL}/loginOperator`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,6 +61,11 @@ const LogInScreen = ({ navigation }) => {
             setLoading(false);
             console.error(error);
         });
+    };
+
+    const ForgetPasswordHandler = ()=>{
+        navigation.navigate('ForgetPassword');
+
     };
 
     return (
@@ -101,7 +107,9 @@ const LogInScreen = ({ navigation }) => {
                 </TouchableOpacity>  
                 </View>
                 <View className="flex items-end mt-5">
+                <TouchableOpacity  onPress={ForgetPasswordHandler}>
                 <Text className="text-blue-600">Forget Password?</Text>
+                </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                     className="bg-blue-700 p-4 rounded-full top-10"

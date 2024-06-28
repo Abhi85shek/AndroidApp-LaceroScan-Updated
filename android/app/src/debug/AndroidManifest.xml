@@ -4,6 +4,7 @@
 
     <application
         android:usesCleartextTraffic="true"
+        android:windowSoftInputMode="adjustPan"
         tools:targetApi="28"
         tools:ignore="GoogleAppIndexingWarning"/>
 </manifest>
