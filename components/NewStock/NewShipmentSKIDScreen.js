@@ -176,12 +176,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#1baeff',
         alignItems: 'center',
         padding: 10,
-        borderRadius: 5,
+        borderRadius: 100,
         justifyContent: 'center'
     },
     buttonText: {
         fontSize: 40,
-        fontWeight: 'bold'
+        // fontWeight: 'bold',
+        color:'white'
     }
 });
 

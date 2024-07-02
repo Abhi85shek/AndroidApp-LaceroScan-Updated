@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator,Image } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
+// import CheckBox from '@react-native-community/checkbox';
 import FloatingLabelInput from './cell/floatingLabelInput';
 import Icon from "react-native-vector-icons/Entypo";
 import { DOMAIN_URL } from "../config/config";
 import ForgetPassword from './ForgetPassword';
+import CheckBox from 'react-native-check-box'
 // import { Image } from 'react-native-reanimated/lib/typescript/Animated';
 
 const LogInScreen = ({ navigation }) => {
@@ -12,7 +13,7 @@ const LogInScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [showPassword,setShowPassword] = useState(false);
-    const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [isChecked,setIsChecked] = useState(false);
 
     // useLayoutEffect(() => {
     //     navigation.setOptions({
@@ -108,18 +109,21 @@ const LogInScreen = ({ navigation }) => {
                     {/* <FontAwesome name={showPassword ? 'eye-slash' : 'eye'} size={20} color="gray" /> */}
                 </TouchableOpacity>  
                 </View>
-                <View className="flex items-end mt-5">
-                <View>
+                <View className="flex flex-row mt-5">
                 <CheckBox
-                    disabled={false}
-                    value={toggleCheckBox}
-                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                    onClick={()=>{
+                            setIsChecked((prev)=> !prev);
+                    }}
+                    isChecked={isChecked}
+                    
                 />
-                    <Text style={styles.label}>Remember Me</Text>
-                </View>
+                
+                <Text className="flex">Remember Me</Text>
                 
                 </View>
-                <View>
+                
+                
+                <View className="flex items-end mt-5">
                 <TouchableOpacity  onPress={ForgetPasswordHandler}>
                 <Text className="text-blue-600">Forget Password?</Text>
                 </TouchableOpacity>

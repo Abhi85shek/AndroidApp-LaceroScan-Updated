@@ -219,12 +219,16 @@ const styles = StyleSheet.create({
         position: 'relative',
         backgroundColor: '#1baeff',
         alignItems: 'center',
+        justifyContent:'center',
         padding: 10,
-        borderRadius: 5
+        borderRadius: 100,
+        shadowColor:'black',
+        shadowOffset:10
     },
     buttonText: {
-        fontSize: 50,
-        fontWeight: 'bold'
+        fontSize: 45,
+        // fontWeight: 'bold',
+        color:'white'
     }
 });
 

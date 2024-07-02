@@ -264,12 +264,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#1baeff',
         alignItems: 'center',
         padding: 10,
-        borderRadius: 5,
+        borderRadius: 100,
         justifyContent: 'center'
     },
     buttonText: {
-        fontSize: 50,
-        fontWeight: 'bold'
+        fontSize: 45,
+        // fontWeight: 'bold'
+        color:'white'
     }
 });
 
