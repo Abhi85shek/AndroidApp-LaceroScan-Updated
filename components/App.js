@@ -21,6 +21,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import ForgetPassword from './ForgetPassword';
 import { OTPVerification } from './OTPVerification';
 import ChangePassword from './ChangePassword';
+import { RecoilRoot } from 'recoil';
+import TimeActivity from './TimeActivity';
 
 const CustomHeader = ({ navigation, route }) => {
   if (
@@ -85,9 +87,10 @@ const DrawerNavigation = ()=>{
 
   const Drawer = createDrawerNavigator();
   return (
-    <Drawer.Navigator 
-    drawerContent={(props)=> <DrawerContent {...props}/>} screenOptions={{headerShown:false}}>
+    <Drawer.Navigator drawerContent={(props)=> <DrawerContent {...props}/>} screenOptions={{headerShown:false}}>
       <Drawer.Screen name='Root' component={StackNavigation}/>
+      <Drawer.Screen name="TimeActivity" component={TimeActivity} />
+  
   </Drawer.Navigator>
   )
 
@@ -96,9 +99,11 @@ const DrawerNavigation = ()=>{
 const App = () => {
  
   return (
+    <RecoilRoot>
     <NavigationContainer>
             <DrawerNavigation />
     </NavigationContainer>
+    </RecoilRoot>
   );
 };
 

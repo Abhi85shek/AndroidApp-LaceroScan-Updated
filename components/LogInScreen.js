@@ -1,5 +1,6 @@
-import React, { useState,useLayoutEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator,Image } from 'react-native';
+import CheckBox from '@react-native-community/checkbox';
 import FloatingLabelInput from './cell/floatingLabelInput';
 import Icon from "react-native-vector-icons/Entypo";
 import { DOMAIN_URL } from "../config/config";
@@ -11,6 +12,7 @@ const LogInScreen = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [showPassword,setShowPassword] = useState(false);
+    const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
     // useLayoutEffect(() => {
     //     navigation.setOptions({
@@ -69,9 +71,9 @@ const LogInScreen = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container} className="p-5">
-                <View className="flex justify-center items-center">
-                <Image  className="w-40 h-40 justify-center item-center" source={require("./Assets/laceroLogo.png")}/>
+        <View style={styles.container} className="p-5 ">
+                <View className="flex justify-center items-center mt-8">
+                <Image  className="w-20 h-20 justify-center item-center" source={require("./Assets/laceroLogo.png")}/>
                 <Text className="text-3xl text-black">Welcome back!</Text>
                 <Text className="text-gray-600 text-lg">Login to Your Account</Text>
                 </View>
@@ -107,9 +109,21 @@ const LogInScreen = ({ navigation }) => {
                 </TouchableOpacity>  
                 </View>
                 <View className="flex items-end mt-5">
+                <View>
+                <CheckBox
+                    disabled={false}
+                    value={toggleCheckBox}
+                    onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                />
+                    <Text style={styles.label}>Remember Me</Text>
+                </View>
+                
+                </View>
+                <View>
                 <TouchableOpacity  onPress={ForgetPasswordHandler}>
                 <Text className="text-blue-600">Forget Password?</Text>
                 </TouchableOpacity>
+                </View>
                 </View>
                 <TouchableOpacity
                     className="bg-blue-700 p-4 rounded-full top-10"
@@ -119,7 +133,7 @@ const LogInScreen = ({ navigation }) => {
                 </TouchableOpacity>
             </View>
             
-        </View>
+        
     );
 };
 
@@ -153,6 +167,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    checkboxContainer: {
+        flexDirection: 'row',
+        marginBottom: 20,
+      },
+      checkbox: {
+        alignSelf: 'center',
+      },
+      label: {
+        margin: 8,
+      },
 });
 
 export default LogInScreen;

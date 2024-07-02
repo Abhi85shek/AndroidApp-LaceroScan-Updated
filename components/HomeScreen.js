@@ -1,17 +1,68 @@
-import React,{useEffect, useLayoutEffect, useState} from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity,Alert } from 'react-native';
+import React,{useEffect, useLayoutEffect, useState,useRef} from 'react';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity,Alert,AppState,PanResponder } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-
+import workingActivity from './atom/workingActivity';
+const AUTO_LOGOUT_TIME = 10 * 60 * 1000; 
 import { DOMAIN_URL } from "../config/config";
+import { useRecoilState } from 'recoil';
 
 const HomeScreen = ({ route, navigation }) => {
 
- 
     const [loginTime,setLoginTime]= useState(null);
-    const [timeStampID,setTimeStampID] =useState(null);
+    const timeoutRef = useRef(null);
 
+
+    useEffect(() => {
+        const resetTimeout = () => {
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+          timeoutRef.current = setTimeout(logout, AUTO_LOGOUT_TIME);
+        };
+    
+        const logout = () => {
+        //   setIsLoggedIn(false);
+          console.log('User logged out due to inactivity');
+          navigation.navigate('LogIn');
+          // Add your logout logic here (e.g., clear session, redirect to login)
+        };
+    
+        const handleAppStateChange = (nextAppState) => {
+          if (nextAppState === 'active') {
+            resetTimeout();
+          } else if (nextAppState.match(/inactive|background/)) {
+            if (timeoutRef.current) {
+              clearTimeout(timeoutRef.current);
+            }
+          }
+        };
+    
+        const subscription = AppState.addEventListener('change', handleAppStateChange);
+    
+        const panResponder = PanResponder.create({
+          onStartShouldSetPanResponder: () => true,
+          onMoveShouldSetPanResponder: () => true,
+          onPanResponderGrant: () => resetTimeout(),
+          onPanResponderMove: () => resetTimeout(),
+          onPanResponderRelease: () => resetTimeout(),
+          onPanResponderTerminate: () => resetTimeout(),
+        });
+    
+        resetTimeout();
+    
+        return () => {
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+          subscription.remove();
+        };
+      }, []);
+
+
+    const [timeActivity,setTimeActivity] = useRecoilState(workingActivity);
+    console.log(timeActivity);
     useLayoutEffect(() => {
         navigation.setOptions({
           title: 'Choose Type',
@@ -59,7 +110,9 @@ const HomeScreen = ({ route, navigation }) => {
         }).then((response) => Promise.all([response.status.toString(), response.json()]))
          .then((res) => {
             if (res[0] === '200') {
-                setTimeStampID(res[1].data.id);
+                console.log(res);
+                setTimeActivity(res[1].data.id);
+                // setTimeStampID(res[1].data.id);
                 // navigation.navigate('Home', { user: res[1].data });
             } 
 
@@ -90,9 +143,8 @@ const HomeScreen = ({ route, navigation }) => {
             await AsyncStorage.setItem('token', route.params.user.token);
             await AsyncStorage.setItem('operatorID',JSON.stringify(route.params.user.id));
             await AsyncStorage.setItem('workingHours',JSON.stringify(route.params.user.workingHours));
-            await AsyncStorage.setItem("timeStampID",JSON.stringify(timeStampID));
-            // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
         };
+
     
         setAsyncStorageData();
         return () => {
@@ -133,14 +185,14 @@ const HomeScreen = ({ route, navigation }) => {
                     style={styles.button}
                     onPress={handleNewStock}
                 >
-                    <Text style={styles.buttonText}> New Stock </Text>
+                    <Text style={styles.buttonText} > New Stock </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={styles.button}
                     onPress={handleExistStock}
                 >
-                    <Text style={styles.buttonText}> Exist Stock </Text>
+                    <Text style={styles.buttonText}> Existing Stock </Text>
                 </TouchableOpacity>
             </View>
             <Toast />

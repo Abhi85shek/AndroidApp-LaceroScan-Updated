@@ -6,28 +6,35 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/AntDesign";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DOMAIN_URL } from "../../config/config";
+import workingActivity from "../atom/workingActivity";
+import { useRecoilState } from "recoil";
+import TimeActivity from "../TimeActivity";
 function DrawerContent({navigation,...props}) {
 
     const [userName,setUserName] = useState("");
     const [email,setEmail] = useState("");
     const [operatorId,setOperatorId] = useState(0);
     const [workHour,setWorkHour] = useState("");
-    const [timeStampId,setTimeStampId] = useState(null);
+    const timeActivity = useRecoilState(workingActivity);
+
+    console.log(timeActivity[0]);
 
     const fetchData = async () => {
         const name = await AsyncStorage.getItem('name');
         const email = await AsyncStorage.getItem('userName');
         const operatorID = await AsyncStorage.getItem('operatorID');
         const workingHours = await AsyncStorage.getItem('workingHours');
-        const timeStampID  = await AsyncStorage.getItem('timeStampID');
+        
         console.log(workingHours);
         setUserName(name);
         setEmail(email);
         setOperatorId(operatorID);
         setWorkHour(workingHours);
-        setTimeStampId(timeStampID);
+        
+        
       };
 
+    //   console.log(timeStampID);
 
     const setAsyncStorageData = async () => {
         await AsyncStorage.removeItem('userName');
@@ -49,7 +56,8 @@ function DrawerContent({navigation,...props}) {
             date:dateOnly,
             role:"operator",
             operatorId:operatorId,
-            timeStampId:timeStampId
+            timeStampId:timeActivity[0]
+            // timeStampId:timeStampId
             
         }
 
@@ -79,7 +87,14 @@ function DrawerContent({navigation,...props}) {
 
     useEffect(()=>{
         fetchData();
-    },[]);
+        // console.log(timeStampId);
+    },[fetchData]);
+
+
+    const goToTimeActivityHandler =()=>{
+
+        navigation.navigate('TimeActivity');
+    };
 
     return (
                <DrawerContentScrollView {...props} >
@@ -92,6 +107,11 @@ function DrawerContent({navigation,...props}) {
                                         {email}
                                     </Text>
                                 </View>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={goToTimeActivityHandler}>
+                        <View>
+                            <Text>Time Activity</Text>
                         </View>
                     </TouchableOpacity>
                     <View className="flex justify-center items-center border-t-orange-300 border-b-2 border-t-2 p-3" >
