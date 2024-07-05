@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { View, Alert, TouchableOpacity, Text, StyleSheet, Dimensions,ActivityIndicator,Image } from 'react-native';
-// import CheckBox from '@react-native-community/checkbox';
 import FloatingLabelInput from './cell/floatingLabelInput';
 import Icon from "react-native-vector-icons/Entypo";
 import { DOMAIN_URL } from "../config/config";
-import ForgetPassword from './ForgetPassword';
+
 import CheckBox from 'react-native-check-box'
-// import { Image } from 'react-native-reanimated/lib/typescript/Animated';
+
 
 const LogInScreen = ({ navigation }) => {
     const [userName, setUserName] = useState('');
@@ -15,25 +14,6 @@ const LogInScreen = ({ navigation }) => {
     const [showPassword,setShowPassword] = useState(false);
     const [isChecked,setIsChecked] = useState(false);
 
-    // useLayoutEffect(() => {
-    //     navigation.setOptions({
-    //       title: 'Lacero Scan',
-    //       headerStyle: {
-    //         backgroundColor: '#1bb5d8',
-    //         height: 80
-    //       },
-    //       headerTitleAlign:"center",
-    //       headerTitleStyle: {
-    //         fontSize: 30,
-    //         alignSelf: 'center',
-    //         textAlign: 'center',
-    //         justifyContent: 'center',
-    //         flex: 1,
-    //         fontWeight: 'bold',
-    //         textAlignVertical: 'center'
-    //       }
-    //     });
-    //   }, [navigation]);
 
     const handleLogin = async () => {
 

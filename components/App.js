@@ -75,6 +75,7 @@ const StackNavigation = ()=>{
         <Stack.Screen name="ExistStock" component={ExistStockScreen} />
         <Stack.Screen name="ProcessItem" component={ProcessItemScreen} />
         <Stack.Screen name="ProcessSkid" component={ProcessSkidScreen} />   
+        <Stack.Screen name="TimeActivity" component={TimeActivity} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{headerShown: false}}/>
         <Stack.Screen name="OTPVerification" component={OTPVerification} options={{headerShown: false}} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}} />
@@ -87,9 +88,9 @@ const DrawerNavigation = ()=>{
 
   const Drawer = createDrawerNavigator();
   return (
-    <Drawer.Navigator drawerContent={(props)=> <DrawerContent {...props}/>} screenOptions={{headerShown:false}}>
+    <Drawer.Navigator drawerContent={(props)=> <DrawerContent {...props}/>} screenOptions={{headerShown:false,swipeEnabled: false}} >
       <Drawer.Screen name='Root' component={StackNavigation}/>
-      <Drawer.Screen name="TimeActivity" component={TimeActivity} />
+     
   
   </Drawer.Navigator>
   )

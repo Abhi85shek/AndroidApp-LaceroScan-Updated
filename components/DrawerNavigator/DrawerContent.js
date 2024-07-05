@@ -9,6 +9,12 @@ import { DOMAIN_URL } from "../../config/config";
 import workingActivity from "../atom/workingActivity";
 import { useRecoilState } from "recoil";
 import TimeActivity from "../TimeActivity";
+
+const now = new Date();
+const year = now.getFullYear();
+const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+const day = String(now.getDate()).padStart(2, '0');
+const dateOnly = `${year}-${month}-${day}`;
 function DrawerContent({navigation,...props}) {
 
     const [userName,setUserName] = useState("");
@@ -16,22 +22,20 @@ function DrawerContent({navigation,...props}) {
     const [operatorId,setOperatorId] = useState(0);
     const [workHour,setWorkHour] = useState("");
     const timeActivity = useRecoilState(workingActivity);
+    const [date,setDate] = useState(dateOnly);
 
-    console.log(timeActivity[0]);
+        
+        
 
     const fetchData = async () => {
         const name = await AsyncStorage.getItem('name');
         const email = await AsyncStorage.getItem('userName');
         const operatorID = await AsyncStorage.getItem('operatorID');
         const workingHours = await AsyncStorage.getItem('workingHours');
-        
-        console.log(workingHours);
         setUserName(name);
         setEmail(email);
         setOperatorId(operatorID);
         setWorkHour(workingHours);
-        
-        
       };
 
     //   console.log(timeStampID);
@@ -43,21 +47,22 @@ function DrawerContent({navigation,...props}) {
         // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
     };
 
-    console.log(workHour);
+    // console.log(workHour);
     const operatorLogOutTime = async ()=>{
         const now = new Date();
         const year = now.getFullYear();
         const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
         const day = String(now.getDate()).padStart(2, '0');
         const dateOnly = `${year}-${month}-${day}`;
+       
 
         const data = {
-
+            
             date:dateOnly,
             role:"operator",
             operatorId:operatorId,
             timeStampId:timeActivity[0]
-            // timeStampId:timeStampId
+          
             
         }
 
@@ -93,7 +98,7 @@ function DrawerContent({navigation,...props}) {
 
     const goToTimeActivityHandler =()=>{
 
-        navigation.navigate('TimeActivity');
+        navigation.navigate('TimeActivity',{operatorId:operatorId,date:date});
     };
 
     return (
@@ -110,14 +115,14 @@ function DrawerContent({navigation,...props}) {
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={goToTimeActivityHandler}>
-                        <View>
-                            <Text>Time Activity</Text>
+                        <View className="p-5 flex justify-center items-start border-y-[1px] border-gray-200">
+                            <Text >Time Activity</Text>
                         </View>
                     </TouchableOpacity>
-                    <View className="flex justify-center items-center border-t-orange-300 border-b-2 border-t-2 p-3" >
+                    {/* <View className="flex justify-center items-center border-t-orange-300 border-b-2 border-t-2 p-3" >
                         <Text className="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">Maximum Working Hours</Text>
                         <Text className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-200 dark:text-blue-800 ms-2">{workHour}</Text>
-                    </View>
+                    </View> */}
                     <View>
                         <Button onPress={signOutHandler}>Sign Out</Button>
                     </View>
