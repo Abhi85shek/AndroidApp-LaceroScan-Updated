@@ -17,7 +17,6 @@ const ExistStockScreen = ({route,navigation}) => {
             textAlign: 'center',
             justifyContent: 'center',
             flex: 1,
-            fontWeight: 'bold',
             textAlignVertical: 'center'
           }
         });

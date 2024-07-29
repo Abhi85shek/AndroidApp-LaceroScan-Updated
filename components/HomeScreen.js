@@ -120,7 +120,6 @@ const HomeScreen = ({ route, navigation }) => {
             textAlign: 'center',
             justifyContent: 'center',
             flex: 1,
-            fontWeight: 'bold',
             textAlignVertical: 'center'
           }
         });
@@ -144,7 +143,7 @@ const HomeScreen = ({ route, navigation }) => {
             date:dateOnly
 
         }
-
+        console.log(data);
         fetch(`${DOMAIN_URL}/insertOperatorLoginTime`, {
             method: 'POST',
             headers: {
@@ -155,13 +154,9 @@ const HomeScreen = ({ route, navigation }) => {
         }).then((response) => Promise.all([response.status.toString(), response.json()]))
          .then((res) => {
             if (res[0] === '200') {
-               
+                console.log(res);
                 setTimeActivity(res[1].data.id);
-                // setTimeStampID(res[1].data.id);
-                // navigation.navigate('Home', { user: res[1].data });
             } 
-
-            // console.log(response[0]);
         })
         .catch((error) => {
             console.error(error);
