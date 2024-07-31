@@ -52,7 +52,7 @@ const ChangePassword = ({navigation,route}) => {
     })
     .then((response) => Promise.all([response.status.toString(), response.json()]))
     .then((res) => {
-        console.log("Test");
+        
         if (res[0] === '200') {
             Alert.alert("Password Successfully Changed");
             navigation.navigate('LogIn');

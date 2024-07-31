@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer,useNavigation,DrawerActions } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Icon from "react-native-vector-icons/Entypo";
+import withAppCloseHandler from './withAppCloseHandler';
 
 // // Import your screen components
 import HomeScreen from './HomeScreen';
@@ -98,11 +99,12 @@ const DrawerNavigation = ()=>{
 };
 
 const App = () => {
- 
+  
+  const EnhancedDrawerNavigation = withAppCloseHandler(DrawerNavigation); 
   return (
     <RecoilRoot>
     <NavigationContainer>
-            <DrawerNavigation />
+    <EnhancedDrawerNavigation />
     </NavigationContainer>
     </RecoilRoot>
   );

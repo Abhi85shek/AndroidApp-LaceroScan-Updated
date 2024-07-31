@@ -57,13 +57,10 @@ function DrawerContent({navigation,...props}) {
        
 
         const data = {
-            
             date:dateOnly,
             role:"operator",
             operatorId:operatorId,
             timeStampId:timeActivity[0]
-          
-            
         }
 
         // Testing Is Done

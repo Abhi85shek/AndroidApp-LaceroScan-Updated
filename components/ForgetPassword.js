@@ -23,7 +23,7 @@ const resetPasswordHandler = async ()=>{
     })
     .then((response) => Promise.all([response.status.toString(), response.json()]))
     .then((res) => {
-        console.log("Test");
+        
         if (res[0] === '200') {
             Toast.show({
                 type: 'success',
@@ -32,7 +32,7 @@ const resetPasswordHandler = async ()=>{
             navigation.navigate('OTPVerification', { email: email});
         } else {
             Alert.alert(res[1].message,"Please Check Your Credentials");
-            console.log("Checking");
+            
         }
     })
     .catch((error) => {

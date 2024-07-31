@@ -4,22 +4,20 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import workingActivity from './atom/workingActivity';
-
+import { loginParamsState } from "./atom/state";
 const AUTO_LOGOUT_TIME = 60 * 60 * 1000; 
 import { DOMAIN_URL } from "../config/config";
 import { useRecoilState } from 'recoil';
 
 const HomeScreen = ({ route, navigation }) => {
 
-  
-  console.log(route.params);
+
     const [loginTime,setLoginTime]= useState(null);
     const [operatorId,setOperatorId] = useState(route.params.user.id);
     const timeoutRef = useRef(null);
-    // const timeActivity = useRecoilState(workingActivity);
     const [timeActivity,setTimeActivity] = useRecoilState(workingActivity);
+    const [loginParams, setLoginParams] = useRecoilState(loginParamsState);
    
-
     useEffect(() => {
         const resetTimeout = () => {
           if (timeoutRef.current) {
@@ -29,33 +27,27 @@ const HomeScreen = ({ route, navigation }) => {
         };
     
         const logout = () => {
-        //   setIsLoggedIn(false);
-
           console.log('User logged out due to inactivity');
           operatorLogOutTime();
           navigation.navigate('LogIn');
-          // Add your logout logic here (e.g., clear session, redirect to login)
         };
-    
+        
+        
+
         const operatorLogOutTime = async ()=>{
           const now = new Date();
           const year = now.getFullYear();
-          const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+          const month = String(now.getMonth() + 1).padStart(2, '0');
           const day = String(now.getDate()).padStart(2, '0');
           const dateOnly = `${year}-${month}-${day}`;
   
           const data = {
-              
               date:dateOnly,
               role:"operator",
               operatorId:operatorId,
               timeStampId:timeActivity
-              
           }
-          console.log(timeActivity);
-
-          console.log(data);
-  
+        
           // Testing Is Done
   
           fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
@@ -143,7 +135,7 @@ const HomeScreen = ({ route, navigation }) => {
             date:dateOnly
 
         }
-        console.log(data);
+        
         fetch(`${DOMAIN_URL}/insertOperatorLoginTime`, {
             method: 'POST',
             headers: {
@@ -154,8 +146,10 @@ const HomeScreen = ({ route, navigation }) => {
         }).then((response) => Promise.all([response.status.toString(), response.json()]))
          .then((res) => {
             if (res[0] === '200') {
-                console.log(res);
+               
                 setTimeActivity(res[1].data.id);
+                setLoginParams({ operatorId, timeActivity:res[1].data.id });
+
             } 
         })
         .catch((error) => {

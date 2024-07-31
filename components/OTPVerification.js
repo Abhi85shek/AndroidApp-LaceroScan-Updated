@@ -36,7 +36,7 @@ export const OTPVerification = ({route, navigation }) => {
             email: email,
             otp : otp
         };
-        console.log(data);
+       
         fetch(`${DOMAIN_URL}/verifyOTP`, {
             method: 'POST',
             headers: {
@@ -49,7 +49,7 @@ export const OTPVerification = ({route, navigation }) => {
         
         .then((response) => Promise.all([response.status.toString(), response.json()]))
         .then((res) => {
-            console.log("Test");
+           
             if (res[0] === '200') {
                 Toast.show({
                     type: 'success',
