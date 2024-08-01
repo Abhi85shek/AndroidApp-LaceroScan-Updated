@@ -99,5 +99,6 @@ const withAppCloseHandler = (WrappedComponent) => {
 
   return EnhancedComponent;
 };
+// Done
 
 export default withAppCloseHandler;
