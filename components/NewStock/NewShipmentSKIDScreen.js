@@ -81,18 +81,20 @@ const NewShipmentSKIDScreen = ({ route,navigation }) => {
                 })
                 .then((responseJson) => {
                     if (responseJson) {
+                        let updatedScannedTotal = totalScanned;
                         if (responseJson.message === "New Skid Receive") {
                             success.play();
-                            setTotalScanned(totalScanned + 1);
+                            updatedScannedTotal+=1;
+                            setTotalScanned(updatedScannedTotal);
                         } else {
                             fail.play();
-                            fail.play();
+                           
                         }
                         Alert.alert(
                             responseJson.message,
-                            `Total Scanned: ${totalScanned}`,
+                            `Total Scanned: ${updatedScannedTotal}`,
                             [{ text: "OK", onPress: () => setScanned(false) }]
-                        );
+                        ); 
                     }
                     setItemCode('');
                     setScanned(false);
@@ -167,6 +169,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
+        color:'black'
     },
     button: {
         marginTop: 40,

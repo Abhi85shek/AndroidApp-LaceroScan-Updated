@@ -105,17 +105,17 @@ function DrawerContent({navigation,...props}) {
                                 <Avatar.Text label="AB" size={60}  />
                                 <View className="ml-2 flex-col">
                                     <Title>{userName}</Title>
-                                    <Text numberOfLines={1}>
+                                    <Text numberOfLines={1} style={styles.email}>
                                         {email}
                                     </Text>
                                 </View>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={goToTimeActivityHandler}>
+                    {/* <TouchableOpacity onPress={goToTimeActivityHandler}>
                         <View className="p-5 flex justify-center items-start border-y-[1px] border-gray-200">
                             <Text >Time Activity</Text>
                         </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                     {/* <View className="flex justify-center items-center border-t-orange-300 border-b-2 border-t-2 p-3" >
                         <Text className="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">Maximum Working Hours</Text>
                         <Text className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-200 dark:text-blue-800 ms-2">{workHour}</Text>
@@ -128,3 +128,9 @@ function DrawerContent({navigation,...props}) {
 };
 
 export default DrawerContent;
+
+const styles = StyleSheet.create({
+    email:{
+        color:"black"
+    }
+});

@@ -98,14 +98,18 @@ const LogInScreen = ({ navigation }) => {
                     label="Email"
                     value={userName}
                     placeholder="Enter your email"
+                    placeholderTextColor="#D3D3D3"
+                    style={styles.input}
                     onChangeText={(text) => setUserName(text)}
                 />
                 <View style={styles.passwordContainer}>
                     <FloatingLabelInput
                         secureTextEntry={!showPassword}
                         placeholder="Enter password"
+                        placeholderTextColor="#D3D3D3"
                         label="Password"
                         value={password}
+                        style={styles.input}
                         onChangeText={(text) => setPassword(text)}
                     />
                     <TouchableOpacity style={styles.toggleIcon} onPress={() => setShowPassword(!showPassword)}>
@@ -153,6 +157,9 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: 'black',
     },
+    input:{
+        color:'black'
+    },
     subtitle: {
         color: 'gray',
         fontSize: 16,
@@ -178,6 +185,7 @@ const styles = StyleSheet.create({
     },
     label: {
         marginLeft: 8,
+        color:'black'
     },
     forgetPassword: {
         alignItems: 'flex-end',
