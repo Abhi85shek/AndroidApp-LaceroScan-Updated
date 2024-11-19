@@ -58,7 +58,6 @@ const LogInScreen = ({ navigation }) => {
             
             if (response.status === 200) {
                 if (isChecked) {
-                   
                     await AsyncStorage.setItem('userName', userName);
                     await AsyncStorage.setItem('password', password);
                 } else {

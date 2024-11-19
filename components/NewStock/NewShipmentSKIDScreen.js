@@ -16,7 +16,7 @@ const NewShipmentSKIDScreen = ({ route,navigation }) => {
 
 
   
-    // console.log(route.params.user.user.user.token);
+  
 
     useLayoutEffect(() => {
       navigation.setOptions({
@@ -49,15 +49,15 @@ const NewShipmentSKIDScreen = ({ route,navigation }) => {
 
     const handleReceived = async () => {
       
-      console.log(itemCode);
+
        NetInfo.fetch().then(state => {
-        console.log(state);
+      
             if (state.isConnected) {
                 setScanned(true);
                 Keyboard.dismiss();
                 const barCode = itemCode;
                 const tokenValue = 'Bearer ' + route.params.user.user.user.token;
-                console.log(tokenValue);
+               
                 fetch(`${DOMAIN_URL}/skid/receive`, {
                     method: 'PATCH',
                     headers: {
@@ -67,7 +67,7 @@ const NewShipmentSKIDScreen = ({ route,navigation }) => {
                     body: JSON.stringify({ barCode })
                 })
                 .then((response) => {
-                  console.log(response);
+             
                     if (response.headers.get("Content-Type").indexOf("application/json") >= 0) {
                         return response.json();
                     } else {

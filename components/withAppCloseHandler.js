@@ -26,10 +26,10 @@ const withAppCloseHandler = (WrappedComponent) => {
         operatorId,
         timeStampId: timeActivity,
       };
-      console.log(data);
+      
 
       try {
-        console.log("Hello2");
+        
         const response = await fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
           method: 'POST',
           headers: {
@@ -37,8 +37,8 @@ const withAppCloseHandler = (WrappedComponent) => {
           },
           body: JSON.stringify(data),
         });
-        console.log("Hello4");
-        console.log('Logout API call successful:', response);
+       
+        
         // navigation.navigate('LogIn');
       } catch (error) {
         console.error('Logout API call failed:', error);

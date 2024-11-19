@@ -126,8 +126,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
     
       useEffect(() => {
         const beforeRemoveListener = navigation.addListener('beforeRemove', (e) => {
-          console.log(e);
-          console.log(items[0].barCode)
+      
           e.preventDefault();
           if (items[0].barCode !== "") {
             Alert.alert(
@@ -192,8 +191,8 @@ const ProcessItemScreen = ({ navigation,route}) => {
 
           const token = "Bearer " + token;
 
-            console.log(token);
-            console.log(data.data.items);
+         
+            
 
 
           fetch(`${DOMAIN_URL}/process_task_bulk`, {
@@ -207,7 +206,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
             .then(response => response.json()
           )
             .then(responseJson => {
-              console.log(JSON.stringify(responseJson));
+              
               if (responseJson.data.totalProcessed && responseJson.data.totalProcessed >= JSON.parse(skid).units) {
                 var message = "";
                 if (responseJson.data.createdList) {
@@ -225,7 +224,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
                 }
                 message = message.concat(" ", "\nTotal number of items on the skid has been exceeded from original purchase order. Do you want to proceed? ");
 
-                // console.log("BArCode Scanned");
+               
 
                 Alert.alert(
                   `Process Results - Total Created: ${responseJson.data.totalCreated}`,
@@ -584,6 +583,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
                           style={styles.textInput}
                           value={data.barCode}
                           autoFocus={index === 0}
+                          
                           // onKeyMultipleListener={() => alert("Keyboard Hidden")}
                           ref={inputRefs[index]}
                           onSubmitEditing={() => {
@@ -756,7 +756,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
                                       text: "YES",
                                       onPress: () => {
           
-                                        // console.log(product.productName);
+                                  
                                         setSelectedProductName(product.productName);
                                         navigation.navigate('ProcessItem', {
                                           name: `PROCESSING ` + product.productName,
@@ -780,7 +780,7 @@ const ProcessItemScreen = ({ navigation,route}) => {
                                 )
                               }
                             >
-          
+                            
                               <Image
                                 source={
                                   product.productUrl !== "" ? { uri: "https://drive.google.com/thumbnail?id=" + product.productUrl } :
@@ -830,7 +830,8 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   inputWrap: {
-    flex: 1
+    flex: 1,
+    color:"black"
   },
   textInput: {
     height: "100%",
@@ -839,7 +840,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     justifyContent: "center",
     alignItems: "center",
-    textAlign: "center"
+    textAlign: "center",
+    color:'black'
   },
   yesField: {
     backgroundColor: "#4d954a",
@@ -870,7 +872,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     justifyContent: "center",
     alignItems: "center",
-    textAlign: "center"
+    textAlign: "center",
+    color:'black'
   },
   container: {
     flex: 1,

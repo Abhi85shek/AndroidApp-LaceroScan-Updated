@@ -15,7 +15,7 @@ const HomeScreen = ({ route, navigation }) => {
     const [loginTime,setLoginTime]= useState(null);
     const [operatorId,setOperatorId] = useState(route.params.user.id);
     const timeoutRef = useRef(null);
-    const [timeActivity,setTimeActivity] = useRecoilState(workingActivity);
+    // const [timeActivity,setTimeActivity] = useRecoilState(workingActivity);
     const [loginParams, setLoginParams] = useRecoilState(loginParamsState);
    
     useEffect(() => {
@@ -58,7 +58,7 @@ const HomeScreen = ({ route, navigation }) => {
               body: JSON.stringify(data)
   
           }) .then((response) => {
-              console.log(response);
+              
           })
           .catch((error) => {
               console.error(error);
@@ -165,10 +165,10 @@ const HomeScreen = ({ route, navigation }) => {
             text2: `Welcome ${route.params.user.firstName}👋`
           });
 
-        if(route.params.user.role == "operator")
-            {
-            operatorLoginTime();
-            }
+        // if(route.params.user.role == "operator")
+        //     {
+        //     operatorLoginTime();
+        //     }
         let isMounted = true;
         const setAsyncStorageData = async () => {
             await AsyncStorage.setItem('userName', route.params.user.email);
@@ -176,7 +176,7 @@ const HomeScreen = ({ route, navigation }) => {
             await AsyncStorage.setItem('password', route.params.user.password);
             await AsyncStorage.setItem('token', route.params.user.token);
             await AsyncStorage.setItem('operatorID',JSON.stringify(route.params.user.id));
-            await AsyncStorage.setItem('workingHours',JSON.stringify(route.params.user.workingHours));
+            // await AsyncStorage.setItem('workingHours',JSON.stringify(route.params.user.workingHours));
         };
 
     

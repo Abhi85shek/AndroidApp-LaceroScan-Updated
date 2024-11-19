@@ -70,7 +70,7 @@ const TimeActivity = ({ navigation, route }) => {
         },
         body: JSON.stringify(data)
       });
-      console.log(response.status);
+      
       if (response.status !== 200) {
         console.error('Failed to store logout time');
       }

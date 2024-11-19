@@ -67,7 +67,7 @@ const NewItemScreen = ({ navigation }) => {
                 fail.play();
             }
             Alert.alert(
-                console.log(totalScanned),
+             
                 responseJson.message,
                 `Total Scanned: ${totalScanned}`,
                 [{ text: "OK", onPress: () => setScanned(false) }]

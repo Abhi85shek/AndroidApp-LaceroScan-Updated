@@ -31,14 +31,14 @@ function DrawerContent({navigation,...props}) {
         const name = await AsyncStorage.getItem('name');
         const email = await AsyncStorage.getItem('userName');
         const operatorID = await AsyncStorage.getItem('operatorID');
-        const workingHours = await AsyncStorage.getItem('workingHours');
+        // const workingHours = await AsyncStorage.getItem('workingHours');
         setUserName(name);
         setEmail(email);
         setOperatorId(operatorID);
-        setWorkHour(workingHours);
+        // setWorkHour(workingHours);
       };
 
-    //   console.log(timeStampID);
+   
 
     const setAsyncStorageData = async () => {
         await AsyncStorage.removeItem('userName');
@@ -47,7 +47,7 @@ function DrawerContent({navigation,...props}) {
         // await AsyncStorage.setItem('loginTime',JSON.stringify(Date.now()));
     };
 
-    // console.log(workHour);
+   
     const operatorLogOutTime = async ()=>{
         const now = new Date();
         const year = now.getFullYear();
@@ -73,7 +73,7 @@ function DrawerContent({navigation,...props}) {
             body: JSON.stringify(data)
 
         }) .then((response) => {
-            console.log(response);
+          
         })
         .catch((error) => {
             console.error(error);
