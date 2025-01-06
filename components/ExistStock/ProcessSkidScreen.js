@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef,useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Keyboard, Alert ,AppState,BackHandler} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Keyboard, Alert ,AppState,BackHandler,KeyboardAvoidingView,TouchableWithoutFeedback} from 'react-native';
 import Sound from 'react-native-sound';
 import KeyEvent from 'react-native-keyevent';
 import NetInfo from "@react-native-community/netinfo";
@@ -41,7 +41,7 @@ const ProcessSkidScreen = ({ route,navigation }) => {
 
 
     useEffect(() => {
-        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => false);
 
         // const focusListener = navigation.addListener('focus', () => myField2.current.focus());
 
@@ -144,7 +144,7 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                                 Alert.alert(
                                     'Alert!', 'Please Receive the SKID first before you start scanning items!',
                                     [{ text: "OK", onPress: () =>{
-                                        setItemCode('');
+                                        // setItemCode('');
                                         setScanned(false);
                                         // setAppState({ scanning: false, scanned: false, itemCode: '' })
                                     }
@@ -157,7 +157,7 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                                     'Alert!', 'SKID is already closed!',
                                     [{ text: "OK", onPress: () => 
                                             {
-                                                setItemCode('');
+                                                // setItemCode('');
                                                 setScanned(false);
                                             }
                                         // setAppState({ scanning: false, scanned: false, itemCode: '' })
@@ -191,7 +191,7 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                                         (responseSkidDetail.data.process_status) ? `SKID IN: ${responseSkidDetail.data.process_status} Status!` : '',
                                         [{ text: "OK", onPress: () => 
                                                 {
-                                                    setItemCode('');
+                                                    // setItemCode('');
                                                     setScanned(false);
                                                 }
                                             // setAppState({ scanning: false, scanned: false, itemCode: '' })
@@ -203,7 +203,7 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                     })
                     .catch((error) => {
                         console.error(error);
-                        setItemCode('');
+                        // setItemCode('');
                         // setAppState({ itemCode: '', scanned: false });
                         setScanned(false);
                         // myField2.focus();
@@ -221,26 +221,31 @@ const ProcessSkidScreen = ({ route,navigation }) => {
     };    
 
     return (
-        <View style={styles.container}>
-            <View style={styles.inputContainer}>
-                <FloatingLabelInputFocus
-                 onRef={(r) => myField2 = r}
-                    label="SKID CODE"
-                    value={itemCode}
-                    autoFocus
-                    onChangeText={text => setItemCode(text)}
-                />
-                {scanned ? (
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}> UPDATING... </Text>
-                    </TouchableOpacity>
-                ) : (
-                    <TouchableOpacity style={styles.button} onPress={handleProcess}>
-                        <Text style={styles.buttonText}> PROCESS </Text>
-                    </TouchableOpacity>
-                )}
-            </View>
-        </View>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <View style={styles.inputContainer}>
+                        <FloatingLabelInputFocus
+                            onRef={(r) => (myField2 = r)}
+                            label="SKID CODE"
+                            value={itemCode}
+                            // autoFocus
+                            onChangeText={(text) => setItemCode(text.toUpperCase())}
+                            autoCapitalize="characters"
+                        />
+                        {scanned ? (
+                            <TouchableOpacity style={styles.button}>
+                                <Text style={styles.buttonText}> UPDATING... </Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity style={styles.button} onPress={handleProcess}>
+                                <Text style={styles.buttonText}> PROCESS </Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 };
 

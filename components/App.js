@@ -64,7 +64,8 @@ const StackNavigation = ()=>{
   return (
     <Stack.Navigator initialRouteName="LogIn"  
     screenOptions={({ route }) => ({
-      headerRight: () => <CustomHeader navigation={navigation} route={route} />
+      headerRight: () => <CustomHeader navigation={navigation} route={route} />,
+      gestureEnabled: true
     })}
   >
         <Stack.Screen name="LogIn" component={LogInScreen} options={{headerShown: false}}/>

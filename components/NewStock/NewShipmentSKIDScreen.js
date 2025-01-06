@@ -43,7 +43,7 @@ const NewShipmentSKIDScreen = ({ route,navigation }) => {
         };
         getToken();
 
-        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => false);
         return () => backHandler.remove();
     }, []);
 
@@ -96,13 +96,13 @@ const NewShipmentSKIDScreen = ({ route,navigation }) => {
                             [{ text: "OK", onPress: () => setScanned(false) }]
                         ); 
                     }
-                    setItemCode('');
+                    // setItemCode('');
                     setScanned(false);
                     myField2.focus();
                 })
                 .catch((error) => {
                     console.error(error);
-                    setItemCode('');
+                    // setItemCode('');
                     setScanned(false);
                     myField2.focus();
                 });
@@ -129,10 +129,10 @@ const NewShipmentSKIDScreen = ({ route,navigation }) => {
                         onRef={(r) => this.myField2 = r}
                         label="SKID CODE"
                         value={itemCode}
-                        autoFocus
+                        // autoFocus
                         onKeyMultipleListener={() => alert('Keyboard Hidden')}
                         onChangeText={text => 
-                            setItemCode(text)}
+                            setItemCode(text.toUpperCase())}
                     />
                 <Text style={styles.textField}>Total Scanned: {totalScanned}</Text>
                 {scanned ? (

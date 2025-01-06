@@ -64,7 +64,7 @@ export default class ProcessItemScreen extends Component {
     const password = await AsyncStorage.getItem('password');
 
     BackHandler.addEventListener('hardwareBackPress', () => {
-      return true;
+      return false;
     });
     this.setState({
       token: token,
@@ -255,28 +255,6 @@ export default class ProcessItemScreen extends Component {
                   ,
                   [
                     {
-                      text: "YES",
-                      onPress: () =>
-                        this.setState(
-                          {
-                            items: [
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                            ],
-                            scanned: false,
-                            warning: true,
-                            totalProcessed: responseJson.data.totalProcessed,
-                            totalProcessedToday: responseJson.data.totalProcessedToday,
-                            modalVisible: true
-                          },
-                          () => this[0].focus()
-                        )
-                    },
-                    {
                       text: "NO",
                       onPress: () => {
                         this.setState(
@@ -301,6 +279,28 @@ export default class ProcessItemScreen extends Component {
                         navigate('ProcessSkid');
                       }
                     },
+                    {
+                      text: "YES",
+                      onPress: () =>
+                        this.setState(
+                          {
+                            items: [
+                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                            ],
+                            scanned: false,
+                            warning: true,
+                            totalProcessed: responseJson.data.totalProcessed,
+                            totalProcessedToday: responseJson.data.totalProcessedToday,
+                            modalVisible: true
+                          },
+                          () => this[0].focus()
+                        )
+                    }
                   ]
                 );
 
