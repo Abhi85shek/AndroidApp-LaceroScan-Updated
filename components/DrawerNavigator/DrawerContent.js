@@ -127,7 +127,7 @@ function DrawerContent({navigation,...props}) {
 
                     <View style={styles.versionTag}>
                                    <Text style={styles.versionText}>Version 2.0</Text>
-                                   <Text style={styles.versionText}>Last updated on 28.01.202</Text>
+                                   <Text style={styles.versionText}>Last updated on 28.01.2025</Text>
                     </View>
                 </DrawerContentScrollView>  
     )
