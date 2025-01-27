@@ -22,6 +22,7 @@ const TimeoutProvider = ({ children }) => {
 
       // Add your logout logic here (e.g., clear session, redirect to login)
     };
+    // Testing
 
     const handleAppStateChange = (nextAppState) => {
       if (nextAppState === 'active') {

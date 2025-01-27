@@ -131,6 +131,10 @@ const LogInScreen = ({ navigation }) => {
             <TouchableOpacity style={styles.logInButton} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+            <View style={styles.versionTag}>
+                <Text style={styles.versionText}>Version 2.0</Text>
+                <Text style={styles.versionText}>Last updated on 28.01.202</Text>
+            </View>
         </View>
     );
 };
@@ -209,6 +213,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    versionTag: {
+        position: 'absolute', // Positions it absolutely relative to the screen
+        bottom: 0, // Places it at the bottom
+        left: 0, 
+        right: 0, // Ensures it spans full width
+        padding: 100,
+        alignItems: 'center', // Centers the text horizontally
+      },
+      versionText: {
+        fontSize: 12,
+      },
 });
 
 export default LogInScreen;

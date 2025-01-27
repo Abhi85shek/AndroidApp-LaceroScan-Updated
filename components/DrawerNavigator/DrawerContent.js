@@ -102,7 +102,7 @@ function DrawerContent({navigation,...props}) {
                <DrawerContentScrollView {...props} >
                     <TouchableOpacity activeOpacity={0.8} className="mt-0 pt-0">
                         <View className="flex flex-row pt-8 pb-20 pl-3 bg-gray-100">
-                                <Avatar.Text label="AB" size={60}  />
+                                <Avatar.Text label={userName.substring(0,2).toUpperCase()} size={60}  />
                                 <View className="ml-2 flex-col">
                                     <Title>{userName}</Title>
                                     <Text numberOfLines={1} style={styles.email}>
@@ -120,8 +120,14 @@ function DrawerContent({navigation,...props}) {
                         <Text className="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-xl lg:text-xl dark:text-white">Maximum Working Hours</Text>
                         <Text className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-200 dark:text-blue-800 ms-2">{workHour}</Text>
                     </View> */}
+                    
                     <View>
                         <Button onPress={signOutHandler}>Sign Out</Button>
+                    </View>
+
+                    <View style={styles.versionTag}>
+                                   <Text style={styles.versionText}>Version 2.0</Text>
+                                   <Text style={styles.versionText}>Last updated on 28.01.202</Text>
                     </View>
                 </DrawerContentScrollView>  
     )
@@ -132,5 +138,14 @@ export default DrawerContent;
 const styles = StyleSheet.create({
     email:{
         color:"black"
-    }
+    },
+    versionTag: {
+      position:'relative',
+      
+        
+        alignItems: 'center', // Centers the text horizontally
+      },
+      versionText: {
+        fontSize: 12,
+      },
 });
