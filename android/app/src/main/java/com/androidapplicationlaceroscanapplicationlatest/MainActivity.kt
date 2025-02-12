@@ -1,4 +1,4 @@
-package com.androidapplicationlaceroscan
+package com.androidapplicationlaceroscanapplicationlatest
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
