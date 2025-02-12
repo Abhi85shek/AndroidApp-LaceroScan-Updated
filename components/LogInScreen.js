@@ -214,15 +214,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     versionTag: {
-        position: 'absolute', // Positions it absolutely relative to the screen
-        bottom: 0, // Places it at the bottom
-        left: 0, 
-        right: 0, // Ensures it spans full width
-        padding: 100,
+        marginTop:40,
         alignItems: 'center', // Centers the text horizontally
       },
       versionText: {
         fontSize: 12,
+        color:'grey'
       },
 });
 

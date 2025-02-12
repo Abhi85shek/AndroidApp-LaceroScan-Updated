@@ -102,7 +102,7 @@ function DrawerContent({navigation,...props}) {
                <DrawerContentScrollView {...props} >
                     <TouchableOpacity activeOpacity={0.8} className="mt-0 pt-0">
                         <View className="flex flex-row pt-8 pb-20 pl-3 bg-gray-100">
-                                <Avatar.Text label={userName.substring(0,2).toUpperCase()} size={60}  />
+                                <Avatar.Text label={userName?.substring(0,2).toUpperCase()} size={60}  />
                                 <View className="ml-2 flex-col">
                                     <Title>{userName}</Title>
                                     <Text numberOfLines={1} style={styles.email}>
@@ -147,5 +147,6 @@ const styles = StyleSheet.create({
       },
       versionText: {
         fontSize: 12,
+        color:'grey'
       },
 });
