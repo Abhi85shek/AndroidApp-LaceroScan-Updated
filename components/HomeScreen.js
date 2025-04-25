@@ -18,84 +18,84 @@ const HomeScreen = ({ route, navigation }) => {
     // const [timeActivity,setTimeActivity] = useRecoilState(workingActivity);
     const [loginParams, setLoginParams] = useRecoilState(loginParamsState);
    
-    useEffect(() => {
-        const resetTimeout = () => {
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-          }
-          timeoutRef.current = setTimeout(logout, AUTO_LOGOUT_TIME);
-        };
+    // useEffect(() => {
+    //     const resetTimeout = () => {
+    //       if (timeoutRef.current) {
+    //         clearTimeout(timeoutRef.current);
+    //       }
+    //       timeoutRef.current = setTimeout(logout, AUTO_LOGOUT_TIME);
+    //     };
     
-        const logout = () => {
-          console.log('User logged out due to inactivity');
-          operatorLogOutTime();
-          navigation.navigate('LogIn');
-        };
+    //     const logout = () => {
+    //       console.log('User logged out due to inactivity');
+    //       operatorLogOutTime();
+    //       navigation.navigate('LogIn');
+    //     };
         
         
 
-        const operatorLogOutTime = async ()=>{
-          const now = new Date();
-          const year = now.getFullYear();
-          const month = String(now.getMonth() + 1).padStart(2, '0');
-          const day = String(now.getDate()).padStart(2, '0');
-          const dateOnly = `${year}-${month}-${day}`;
+    //     const operatorLogOutTime = async ()=>{
+    //       const now = new Date();
+    //       const year = now.getFullYear();
+    //       const month = String(now.getMonth() + 1).padStart(2, '0');
+    //       const day = String(now.getDate()).padStart(2, '0');
+    //       const dateOnly = `${year}-${month}-${day}`;
   
-          const data = {
-              date:dateOnly,
-              role:"operator",
-              operatorId:operatorId,
-              timeStampId:timeActivity
-          }
+    //       const data = {
+    //           date:dateOnly,
+    //           role:"operator",
+    //           operatorId:operatorId,
+    //           timeStampId:timeActivity
+    //       }
         
-          // Testing Is Done
+    //       // Testing Is Done
   
-          fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data)
+    //       fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
+    //           method: 'POST',
+    //           headers: {
+    //               'Content-Type': 'application/json',
+    //           },
+    //           body: JSON.stringify(data)
   
-          }) .then((response) => {
+    //       }) .then((response) => {
               
-          })
-          .catch((error) => {
-              console.error(error);
-          });
-      };
+    //       })
+    //       .catch((error) => {
+    //           console.error(error);
+    //       });
+    //   };
   
 
-        const handleAppStateChange = (nextAppState) => {
-          if (nextAppState === 'active') {
-            resetTimeout();
-          } else if (nextAppState.match(/inactive|background/)) {
-            if (timeoutRef.current) {
-              clearTimeout(timeoutRef.current);
-            }
-          }
-        };
+    //     const handleAppStateChange = (nextAppState) => {
+    //       if (nextAppState === 'active') {
+    //         resetTimeout();
+    //       } else if (nextAppState.match(/inactive|background/)) {
+    //         if (timeoutRef.current) {
+    //           clearTimeout(timeoutRef.current);
+    //         }
+    //       }
+    //     };
     
-        const subscription = AppState.addEventListener('change', handleAppStateChange);
+    //     const subscription = AppState.addEventListener('change', handleAppStateChange);
     
-        const panResponder = PanResponder.create({
-          onStartShouldSetPanResponder: () => true,
-          onMoveShouldSetPanResponder: () => true,
-          onPanResponderGrant: () => resetTimeout(),
-          onPanResponderMove: () => resetTimeout(),
-          onPanResponderRelease: () => resetTimeout(),
-          onPanResponderTerminate: () => resetTimeout(),
-        });
+    //     const panResponder = PanResponder.create({
+    //       onStartShouldSetPanResponder: () => true,
+    //       onMoveShouldSetPanResponder: () => true,
+    //       onPanResponderGrant: () => resetTimeout(),
+    //       onPanResponderMove: () => resetTimeout(),
+    //       onPanResponderRelease: () => resetTimeout(),
+    //       onPanResponderTerminate: () => resetTimeout(),
+    //     });
     
-        resetTimeout();
+    //     resetTimeout();
     
-        return () => {
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-          }
-          subscription.remove();
-        };
-      }, []);
+    //     return () => {
+    //       if (timeoutRef.current) {
+    //         clearTimeout(timeoutRef.current);
+    //       }
+    //       subscription.remove();
+    //     };
+    //   }, []);
 
 
    
@@ -117,45 +117,45 @@ const HomeScreen = ({ route, navigation }) => {
         });
       }, [navigation]);
 
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
-    const day = String(now.getDate()).padStart(2, '0');
-    const dateOnly = `${year}-${month}-${day}`;
+    // const now = new Date();
+    // const year = now.getFullYear();
+    // const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+    // const day = String(now.getDate()).padStart(2, '0');
+    // const dateOnly = `${year}-${month}-${day}`;
 
-    const timeOnly = now.toLocaleTimeString();
+    // const timeOnly = now.toLocaleTimeString();
 
-    const operatorLoginTime = async ()=>{
+    // const operatorLoginTime = async ()=>{
 
-        const data = {
+    //     const data = {
 
-            opeatorId : route.params.user.id,
-            role:route.params.user.role,
-            loginTime:timeOnly,
-            date:dateOnly
+    //         opeatorId : route.params.user.id,
+    //         role:route.params.user.role,
+    //         loginTime:timeOnly,
+    //         date:dateOnly
 
-        }
+    //     }
         
-        fetch(`${DOMAIN_URL}/insertOperatorLoginTime`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
+    //     fetch(`${DOMAIN_URL}/insertOperatorLoginTime`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data)
 
-        }).then((response) => Promise.all([response.status.toString(), response.json()]))
-         .then((res) => {
-            if (res[0] === '200') {
+    //     }).then((response) => Promise.all([response.status.toString(), response.json()]))
+    //      .then((res) => {
+    //         if (res[0] === '200') {
                
-                setTimeActivity(res[1].data.id);
-                setLoginParams({ operatorId, timeActivity:res[1].data.id });
+    //             setTimeActivity(res[1].data.id);
+    //             setLoginParams({ operatorId, timeActivity:res[1].data.id });
 
-            } 
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    };
+    //         } 
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
+    // };
 
 
     useEffect(()=>{
@@ -187,18 +187,19 @@ const HomeScreen = ({ route, navigation }) => {
         };
 
     },[]);
-        useEffect(() => {
-            const fetchData = async () => {
-                try {
-                    const time = await AsyncStorage.getItem('loginTime');
-                    setLoginTime(time ? new Date(parseInt(time)).toLocaleString() : null);
-                } catch (error) {
-                    console.error('Error fetching login time:', error);
-                }
-            };
 
-            fetchData();
-        }, []);
+        // useEffect(() => {
+        //     const fetchData = async () => {
+        //         try {
+        //             const time = await AsyncStorage.getItem('loginTime');
+        //             setLoginTime(time ? new Date(parseInt(time)).toLocaleString() : null);
+        //         } catch (error) {
+        //             console.error('Error fetching login time:', error);
+        //         }
+        //     };
+
+        //     fetchData();
+        // }, []);
 
     const handleNewStock = () => {
       

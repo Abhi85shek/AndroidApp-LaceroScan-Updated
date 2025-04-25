@@ -16,7 +16,8 @@ const ProcessSkidScreen = ({ route,navigation }) => {
     const [password, setPassword] = useState("");
     const success = useRef(new Sound('success.wav'));
     const fail = useRef(new Sound('fail.mp3'));
-
+    const [multipleScanInfo, setMultipleScanInfo] = useState([]);
+    const [multiScanIdArray, setMultiScanIdArray] = useState([]);
     // const myField2 = useRef(null);
 
     
@@ -56,17 +57,26 @@ const ProcessSkidScreen = ({ route,navigation }) => {
         };
 
         fetchData();
-
+        getMultipleScanInfo();
         return () => {
             backHandler.remove();
             // focusListener.current = null;
         };
     }, []);
 
-    const navigateToProcessItemScreen = async (skid, productsInSkid) => {
-        await AsyncStorage.setItem('skid', JSON.stringify(skid));
-        await AsyncStorage.setItem('productList', JSON.stringify(productsInSkid));
-        navigation.navigate('ProcessItem', { name: "PLEASE SELECT PRODUCT TYPE", color: "#1bb5d8",skid:JSON.stringify(skid) });
+    const navigateToProcessItemScreen = async (skid, productsInSkid,multipleScanInfoArray) => {
+        console.log("multipleScanInfo from process skid screen Inside navigateToProcessItemScreen",multipleScanInfoArray);
+        console.log("productsInSkid",productsInSkid);
+        console.log("skid",skid);
+        try {
+            await AsyncStorage.setItem('skid', JSON.stringify(skid));
+            await AsyncStorage.setItem('productList', JSON.stringify(productsInSkid));
+            await AsyncStorage.setItem('multipleScanInfo', JSON.stringify(multipleScanInfoArray));
+            console.log("Successfully stored multipleScanInfo in AsyncStorage");
+        } catch (error) {
+            console.error("Error storing data in AsyncStorage:", error);
+        }
+        navigation.navigate('ProcessItem', { name: "PLEASE SELECT PRODUCT TYPE", color: "#1bb5d8",skid:JSON.stringify(skid),multipleScanInfo:JSON.stringify(multipleScanInfoArray) });
     };
 
     const callHandleUpdateProcess = async (token) => {
@@ -74,6 +84,40 @@ const ProcessSkidScreen = ({ route,navigation }) => {
         setToken(token);
         handleProcess();
     };
+
+    const getMultipleScanInfo = async () => {
+        try {
+          const token = await AsyncStorage.getItem("token");
+          const extraScanArray = multiScanIdArray;
+            
+          if (!extraScanArray || extraScanArray.length === 0) {
+            console.log("No extra scan array available");
+            return;
+          }
+    
+          const response = await fetch(`${DOMAIN_URL}/getScanProductInfoById`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ data: extraScanArray }),
+          });
+    
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+    
+          const responseJson = await response.json();
+          if (responseJson.data) {
+           
+            setMultipleScanInfo(responseJson.data)
+          }
+        } catch (error) {
+          console.error("Error fetching scan product info:", error);
+          Alert.alert("Error", "Failed to fetch scan product information");
+        }
+      };
 
 
     const handleProcess = async () => {
@@ -121,18 +165,56 @@ const ProcessSkidScreen = ({ route,navigation }) => {
                                 .then((responseJson) => {
                                     if (responseJson && responseJson.message !== undefined && responseJson.message === "Successfully") {
                                         let productsInSkid = [];
+                                        var multipleScanInfoArray = [];
+                                        let multipleScanIdArray;
+                                        
+                                        // Create an array to store all fetch promises
+                                        const fetchPromises = [];
+                                        
                                         Object.keys(JSON.parse(responseSkidDetail.data.skidContent)).forEach((key) => {
                                             responseJson.data.forEach((product) => {
                                                 if (product.id === Number(key)) {
+                                                    setMultiScanIdArray(product?.multipleScan ? JSON.parse(product?.multipleScan) : []);
+                                                    multipleScanIdArray = product?.multipleScan ? JSON.parse(product?.multipleScan) : [];
                                                     productsInSkid.push(product);
+                                                    
+                                                    // Add fetch promise to array
+                                                    fetchPromises.push(
+                                                        fetch(`${DOMAIN_URL}/getScanProductInfoById`, {
+                                                            method: "POST",
+                                                            headers: {
+                                                                "Content-Type": "application/json",
+                                                                Authorization: `Bearer ${token}`,
+                                                            },
+                                                            body: JSON.stringify({ data: multipleScanIdArray }),
+                                                        })
+                                                        .then((response) => response.json())
+                                                        .then((responseJson) => {
+                                                            if (responseJson && responseJson.message !== undefined && responseJson.message === "Successfully") {
+                                                                return responseJson.data;
+                                                            }
+                                                            return [];
+                                                        })
+                                                    );
                                                 }
                                             });
                                         });
-                                        // success.current().play();
-                                        setScanned(false);
-                                        setItemCode('');
-                                        // setAppState({ scanning: false, scanned: false, itemCode: '' });
-                                        navigateToProcessItemScreen(responseSkidDetail.data, productsInSkid);
+
+                                        // Wait for all fetch requests to complete
+                                        Promise.all(fetchPromises)
+                                            .then((results) => {
+                                                // Flatten the results array and remove duplicates if needed
+                                                multipleScanInfoArray = results.flat();
+                                                console.log("Final multipleScanInfoArray:", multipleScanInfoArray);
+                                                
+                                                setScanned(false);
+                                                setItemCode('');
+                                                navigateToProcessItemScreen(responseSkidDetail.data, productsInSkid, multipleScanInfoArray);
+                                            })
+                                            .catch((error) => {
+                                                console.error("Error fetching scan info:", error);
+                                                setScanned(false);
+                                            });
                                     }
                                 })
                                 .catch((error) => {

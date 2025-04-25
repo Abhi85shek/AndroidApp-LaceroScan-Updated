@@ -31,14 +31,17 @@ export default class ProcessItemScreen extends Component {
       warning: false,
       totalProcessed: 0,
       totalProcessedToday: 0,
-      items: [
-        { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-        { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-        { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-        { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-        { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-        { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-      ],
+      extraScan:true,
+      extraScanLength:0,
+      // items: [
+      //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+      //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+      //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+      //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+      //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+      //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+      // ],
+      items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
       token: undefined,
       skid: undefined,
       selectedProduct: undefined,
@@ -47,6 +50,7 @@ export default class ProcessItemScreen extends Component {
       selectedProductPrefix: "",
       selectedBackgroundColor: "#1bb5d8",
       modalVisible: false,
+      scanDetails: [],
       productList: [],
       backgroundColors: [],
       email: "",
@@ -60,9 +64,10 @@ export default class ProcessItemScreen extends Component {
     const token = await AsyncStorage.getItem('token');
     const skid = await AsyncStorage.getItem('skid');
     const productList = await AsyncStorage.getItem('productList');
+    
     const userName = await AsyncStorage.getItem('userName');
     const password = await AsyncStorage.getItem('password');
-
+    console.log(JSON.parse(productList)[0].scanDetails);
     BackHandler.addEventListener('hardwareBackPress', () => {
       return false;
     });
@@ -75,6 +80,14 @@ export default class ProcessItemScreen extends Component {
       totalProcessed: JSON.parse(skid).totalProcessed,
       totalProcessedToday: JSON.parse(skid).totalProcessedToday,
       backgroundColors: ["#00a3e8", "#ff7f26", "#a349a3", "#1db590", "#fbb03c"],
+      extraScan:JSON.parse(productList)[0].multipleScan ? true : false,
+      
+      extraScanLength:JSON.parse(productList)[0].multipleScan ? JSON.parse(productList)[0].multipleScan.length : 0,
+      scanDetails:JSON.parse(productList)[0].scanDetails,
+
+      items: !JSON.parse(productList)[0].multipleScan ? new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}) :
+        JSON.parse(productList)[0].multipleScan.length == 2 ? new Array(1).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}) :
+        new Array(3).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"})
     });
 
     navigation.navigate('ProcessItem', {
@@ -93,14 +106,15 @@ export default class ProcessItemScreen extends Component {
             onPress: () =>
               this.setState(
                 {
-                  items: [
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                  ],
+                  // items: [
+                  //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                  //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                  //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                  //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                  //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                  //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                  // ],
+                  items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
                   scanned: false,
                   warning: true,
                   modalVisible: true
@@ -113,14 +127,15 @@ export default class ProcessItemScreen extends Component {
             onPress: () => {
               this.setState(
                 {
-                  items: [
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                    { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                  ],
+                //   items: [
+                //     { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //     { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //     { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //     { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //     { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //     { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                //   ],
+                  items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
                   scanned: false,
                   warning: true,
                   modalVisible: false
@@ -259,14 +274,15 @@ export default class ProcessItemScreen extends Component {
                       onPress: () => {
                         this.setState(
                           {
-                            items: [
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                            ],
+                            // items: [
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                            // ],
+                            items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
                             scanned: false,
                             warning: true,
                             modalVisible: false
@@ -284,14 +300,15 @@ export default class ProcessItemScreen extends Component {
                       onPress: () =>
                         this.setState(
                           {
-                            items: [
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                            ],
+                            // items: [
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                            // ],
+                            items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
                             scanned: false,
                             warning: true,
                             totalProcessed: responseJson.data.totalProcessed,
@@ -334,14 +351,15 @@ export default class ProcessItemScreen extends Component {
                       onPress: () => {
                         this.setState({
                           scanning: false,
-                          items: [
-                            { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                            { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                            { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                            { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                            { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                            { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                          ],
+                          // items: [
+                          //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                          //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                          //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                          //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                          //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                          //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                          // ],
+                          items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
                           scanned: false,
                           totalProcessed: responseJson.data.totalProcessed,
                           totalProcessedToday: responseJson.data.totalProcessedToday
@@ -354,14 +372,15 @@ export default class ProcessItemScreen extends Component {
                       onPress: () => {
                         this.setState(
                           {
-                            items: [
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                              { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                            ],
+                            // items: [
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                            //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                            // ],
+                            items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
                             scanned: false,
                             totalProcessed: responseJson.data.totalProcessed,
                             totalProcessedToday: responseJson.data.totalProcessedToday,
@@ -449,14 +468,15 @@ export default class ProcessItemScreen extends Component {
           onPress: () => {
             this.setState(
               {
-                items: [
-                  { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                  { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                  { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                  { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                  { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
-                  { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
-                ],
+                // items: [
+                //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" },
+                //   { barCode: "", status: "SUCCESSFULLY_DEACTIVATED" }
+                // ],
+                items:new Array(6).fill({barCode:"",status:"SUCCESSFULLY_DEACTIVATED"}),
                 scanned: false
               },
               () => this[0].focus()
@@ -602,6 +622,7 @@ export default class ProcessItemScreen extends Component {
       };
 
       return (
+        <>
         <View style={styles.row} key={index}>
           <View style={{ width: "10%", justifyContent: "center" }}>
             <Text style={styles.sectionField}>
@@ -691,9 +712,61 @@ export default class ProcessItemScreen extends Component {
             </View>
           </View>
         </View>
+         <View style={{display:"flex",flexDirection:"row",marginBottom:10,alignItems:"center",justifyContent:"center"}}>
+            {this.state.extraScan && (
+              this.state.scanDetails.map((scan,index)=>(
+                 
+                <View style={{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"}}>
+                  <View style={{width: "10%"}}>
+                      <Image source={{uri:scan.imageUrl}} style={{width:20,height:20}}/>
+                  </View>
+              <View style={{marginTop:10,width: "60%"}} >
+                <TextInput
+                  style={{backgroundColor:"#ecebed",width:"100%",padding:10,fontSize:15}}
+                  value={this.state.extraScan}
+                  placeholder={`Scan ${scan.scanName}`}
+                  onChangeText={text => this.setState({ extraScan: text })}
+                />
+             
+                </View>
+
+
+                
+                <View style={{width: "30%"}}  >
+                <TouchableOpacity
+                  style={{backgroundColor:"#30b29d",justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                    height:40,
+                    width:"100%"}}
+                  onPress={() => {
+                    const items = this.state.items;
+                    const date = new Date();
+                    items[index].barCode = "barcode_" + date.getFullYear() + "" + date.getMonth() + "" + date.getDate() + "" + date.getHours() + "" + date.getMinutes() + "" + date.getSeconds() + "" + index
+                    this.setState({
+                      items
+                    });
+                    if (index !== 5) {
+                      this[index + 1].focus();
+                    }
+                  }}
+                >
+                  <Text style={styles.label}>Generate {scan.scanName}</Text>
+                </TouchableOpacity>
+              </View>
+              </View>
+              )))
+            }
+            
+        </View> 
+        
+        
+        </>
       );
     });
   };
+
+  // handleRenderListExtraScan = () => {
 
   render() {
 
@@ -841,7 +914,6 @@ export default class ProcessItemScreen extends Component {
                   >
 
                     <Image
-
                       source={
                         product.productUrl !== "" ? { uri: "https://drive.google.com/thumbnail?id=" + product.productUrl } :
                           product.shortCut === "FAB"
@@ -856,9 +928,16 @@ export default class ProcessItemScreen extends Component {
                       style={styles.image}
                     />
 
-                    <Text style={styles.productTitle}>
-                      {product.productName}
-                    </Text>
+                    <View style={[styles.productTitle,styles.productTitleContainer]}>
+                      <Text style={{fontWeight: "bold",color:"white",fontSize:15}}>{product.productName}</Text>
+                      {product?.multipleScan && (
+                        <View>
+                        <Text style={styles.text}>{JSON.parse(product.multipleScan).length} Extra Scans</Text>
+                        {/* <Text style={styles.text}>{JSON.parse(product.multipleScan).length} Extra Scans</Text> */}
+                        </View>
+                      )}
+                     
+                    </View>
 
                   </TouchableOpacity>
                 ))}
@@ -916,6 +995,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
+  },
+  productTitleContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    color: "#FFFFFF",
   },
   selected: {},
   noField: {
@@ -977,9 +1063,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    color: "#FFFFFF",
+    color: "white",
     marginLeft: 30,
     textAlign: "center"
+  },
+  text:{
+    
+    fontWeight: "bold",
+    color: "white",
+   
+   
   },
   inputContainer: {
     flex: 1,
@@ -999,7 +1092,8 @@ const styles = StyleSheet.create({
   image: {
     width: 90,
     height: 90,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
+    borderRadius: 10
   },
   barCode: {
     fontSize: 24,

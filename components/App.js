@@ -23,7 +23,8 @@ import ForgetPassword from './ForgetPassword';
 import { OTPVerification } from './OTPVerification';
 import ChangePassword from './ChangePassword';
 import { RecoilRoot } from 'recoil';
-import TimeActivity from './TimeActivity';
+// import TimeActivity from './TimeActivity';
+import NewProcessItemScreen from './ExistStock/NewProcessItemScreen';
 
 const CustomHeader = ({ navigation, route }) => {
   if (
@@ -75,9 +76,10 @@ const StackNavigation = ()=>{
         <Stack.Screen name="SelectCompany" component={SelectCompanyScreen} />
         <Stack.Screen name="NewItem" component={NewItemScreen} />
         <Stack.Screen name="ExistStock" component={ExistStockScreen} />
-        <Stack.Screen name="ProcessItem" component={ProcessItemScreen} />
+        {/* <Stack.Screen name="ProcessItem" component={ProcessItemScreen} /> */}
+        <Stack.Screen name="ProcessItem" component={NewProcessItemScreen} />
         <Stack.Screen name="ProcessSkid" component={ProcessSkidScreen} />   
-        <Stack.Screen name="TimeActivity" component={TimeActivity} />
+        {/* <Stack.Screen name="TimeActivity" component={TimeActivity} /> */}
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} options={{headerShown: false}}/>
         <Stack.Screen name="OTPVerification" component={OTPVerification} options={{headerShown: false}} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} options={{headerShown: false}} />

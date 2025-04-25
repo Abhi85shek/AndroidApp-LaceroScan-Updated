@@ -8,21 +8,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DOMAIN_URL } from "../../config/config";
 import workingActivity from "../atom/workingActivity";
 import { useRecoilState } from "recoil";
-import TimeActivity from "../TimeActivity";
+// import TimeActivity from "../TimeActivity";
 
-const now = new Date();
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
-const day = String(now.getDate()).padStart(2, '0');
-const dateOnly = `${year}-${month}-${day}`;
+// const now = new Date();
+// const year = now.getFullYear();
+// const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+// const day = String(now.getDate()).padStart(2, '0');
+// const dateOnly = `${year}-${month}-${day}`;
 function DrawerContent({navigation,...props}) {
 
     const [userName,setUserName] = useState("");
     const [email,setEmail] = useState("");
     const [operatorId,setOperatorId] = useState(0);
-    const [workHour,setWorkHour] = useState("");
-    const timeActivity = useRecoilState(workingActivity);
-    const [date,setDate] = useState(dateOnly);
+    // const [workHour,setWorkHour] = useState("");
+    // const timeActivity = useRecoilState(workingActivity);
+    // const [date,setDate] = useState(dateOnly);
 
         
         
@@ -48,37 +48,37 @@ function DrawerContent({navigation,...props}) {
     };
 
    
-    const operatorLogOutTime = async ()=>{
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
-        const day = String(now.getDate()).padStart(2, '0');
-        const dateOnly = `${year}-${month}-${day}`;
+    // const operatorLogOutTime = async ()=>{
+    //     const now = new Date();
+    //     const year = now.getFullYear();
+    //     const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+    //     const day = String(now.getDate()).padStart(2, '0');
+    //     const dateOnly = `${year}-${month}-${day}`;
        
 
-        const data = {
-            date:dateOnly,
-            role:"operator",
-            operatorId:operatorId,
-            timeStampId:timeActivity[0]
-        }
+    //     const data = {
+    //         date:dateOnly,
+    //         role:"operator",
+    //         operatorId:operatorId,
+    //         timeStampId:timeActivity[0]
+    //     }
 
-        // Testing Is Done
+    //     // Testing Is Done
 
-        fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
+    //     fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data)
 
-        }) .then((response) => {
+    //     }) .then((response) => {
           
-        })
-        .catch((error) => {
-            console.error(error);
-        });
-    };
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
+    // };
 
     
     const signOutHandler = ()=>{
@@ -93,10 +93,10 @@ function DrawerContent({navigation,...props}) {
     },[fetchData]);
 
 
-    const goToTimeActivityHandler =()=>{
+    // const goToTimeActivityHandler =()=>{
 
-        navigation.navigate('TimeActivity',{operatorId:operatorId,date:date});
-    };
+    //     navigation.navigate('TimeActivity',{operatorId:operatorId,date:date});
+    // };
 
     return (
                <DrawerContentScrollView {...props} >

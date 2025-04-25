@@ -42,6 +42,8 @@ const LogInScreen = ({ navigation }) => {
             password: password
         };
 
+        // Change this Line when you want to login  "/login" or "/loginOperator"
+        // 
         try {
             const response = await fetch(`${DOMAIN_URL}/loginOperator`, {
                 method: 'POST',
