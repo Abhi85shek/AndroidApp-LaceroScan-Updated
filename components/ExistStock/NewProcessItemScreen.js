@@ -441,6 +441,10 @@ const ProcessItemScreen = ({ navigation,route }) => {
                 scanItem2: item.scanItem2,
               })),
             skidID: state.skid.id,
+            additionalScan: state.items.map((item) => ({
+              scanName: item.scanItem1,
+              scanValue: item.scanItem2,
+            })),
           },
         };
 
@@ -762,7 +766,7 @@ const ProcessItemScreen = ({ navigation,route }) => {
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            style={ { backgroundColor: state.selectedBackgroundColor,padding:10,justifyContent:"center",alignItems:"center",borderRadius:10 }}
+            style={ { backgroundColor: state.selectedBackgroundColor,padding:10,justifyContent:"center",alignItems:"center" }}
             onPress={handleUpdateStatus}
           >
             <Text style={styles.buttonText}>UPDATE STATUS</Text>
