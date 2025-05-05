@@ -112,7 +112,7 @@ const ProcessItemScreen = ({ navigation,route }) => {
             : new Array(3).fill({ barCode: "", status: "SUCCESSFULLY_DEACTIVATED", scanItem1: "", scanItem2: "" }),
         }));
 
-        
+        console.log("state.scanDetails",state.extraScanArray);
         navigation.navigate("ProcessItem", {
           name: "PLEASE SELECT PRODUCT TYPE",
           color: "#1bb5d8",
@@ -439,6 +439,8 @@ const ProcessItemScreen = ({ navigation,route }) => {
                 barCode: item.barCode,
                 scanItem1: item.scanItem1,
                 scanItem2: item.scanItem2,
+                ...(state.extraScanArray[0] && { scanItemId1: state.extraScanArray[0].id }),
+                ...(state.extraScanArray[1] && { scanItemId2: state.extraScanArray[1].id })
               })),
             skidID: state.skid.id,
             additionalScan: state.items.map((item) => ({
@@ -466,6 +468,7 @@ const ProcessItemScreen = ({ navigation,route }) => {
 
         const responseJson = await response.json();
 
+        console.log(responseJson);
         if (responseJson.data.totalProcessed >= state.skid.units) {
           let message = "";
           if (responseJson.data.createdList) {
