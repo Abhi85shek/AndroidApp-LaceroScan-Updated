@@ -16,7 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import Sound from "react-native-sound";
 import { DOMAIN_URL } from "../../config/config";
-
+import ZoomableImage from "../Util/ZoomableImage";
 const ProcessItemScreen = ({ navigation,route }) => {
   const success = new Sound("success.wav", Sound.MAIN_BUNDLE);
   const fail = new Sound("fail.mp3", Sound.MAIN_BUNDLE);
@@ -235,26 +235,31 @@ const ProcessItemScreen = ({ navigation,route }) => {
                   {handleRenderSection(index)}
                 </Text>
               </View>
-              {state.scanProductInfo?.length > 0 && (
-                <View
-                  style={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: 20,
-                    padding: 5,
-                    flexDirection: "row",
-                    gap: 10,
-                  }}
-                >
-                  {state.scanProductInfo.map((scan, scanIndex) => (
-                    <Image
-                      key={scanIndex}
-                      source={{ uri: scan.imageUrl }}
-                      style={{ width: 40, height: 40, borderRadius: 20 }}
-                      resizeMode="contain"
-                    />
-                  ))}
-                </View>
+              {/* <View>
+                <Text>{state.extraScanArray.length}</Text>
+              </View> */}
+              {state.extraScanArray?.length > 0 && (
+               <View
+               style={{
+                 justifyContent: "center",
+                 alignItems: "center",
+                 borderRadius: 20,
+                 padding: 5,
+                 flexDirection: "row",
+                 gap: 10,
+               }}
+             >
+               {state.extraScanArray.map((scan, scanIndex) => (
+                 <ZoomableImage
+                 key={scanIndex}
+                 source={{ uri: scan.imageUrl }}
+                 style={{ width: 40, height: 40, borderRadius: 20 }}
+                 resizeMode="contain"
+                 label={scan.scanName}
+               />
+               ))}
+             </View>
+             
               )}
             </View>
             <View
@@ -780,7 +785,7 @@ const ProcessItemScreen = ({ navigation,route }) => {
             <TouchableOpacity style={styles.button} onPress={handleReset}>
               <Text style={styles.buttonText}>RESET</Text>
             </TouchableOpacity>
-        {/* ADSD */}
+        
           </View>
         </View>
       </View>

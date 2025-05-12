@@ -82,7 +82,7 @@ function DrawerContent({navigation,...props}) {
 
     
     const signOutHandler = ()=>{
-        operatorLogOutTime();
+        // operatorLogOutTime();
         navigation.navigate('LogIn')
         setAsyncStorageData();
     };
