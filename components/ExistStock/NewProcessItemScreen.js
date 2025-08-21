@@ -782,7 +782,12 @@ const ProcessItemScreen = ({navigation, route}) => {
                             selectedProductTotalCountTillNow,
                           );
                           // Promise.all([]);
-
+                          console.log(
+                            'Product Count',
+                            product.productCount,
+                            'Selected Product Total Count Till Now',
+                            selectedProductTotalCountTillNow,
+                          );
                           if (
                             selectedProductTotalCountTillNow >
                             product.productCount
@@ -828,32 +833,32 @@ const ProcessItemScreen = ({navigation, route}) => {
                             );
                             return;
                           }
-                          // setState(prev => ({
-                          //   ...prev,
-                          //   selectedProduct: product,
-                          //   selectedProductId: product.id,
-                          //   selectedProductName: product.productName,
-                          //   selectedProductPrefix: product.shortCut,
-                          //   selectedProductMultipleScanLength:
-                          //     multipleScanLength,
-                          //   selectedBackgroundColor:
-                          //     state.backgroundColors[index],
-                          //   productCount: product.productCount,
-                          //   selectedProductTotalCountTillNow:
-                          //     selectedProductTotalCountTillNow,
-                          //   selectedProductMultipleScanDetails:
-                          //     typeof product.scanDetails === 'string'
-                          //       ? JSON.parse(product.scanDetails)
-                          //       : product.scanDetails,
-                          //   modalVisible: false,
-                          //   items: generateItemsArray(multipleScanLength),
-                          // }));
+                          setState(prev => ({
+                            ...prev,
+                            selectedProduct: product,
+                            selectedProductId: product.id,
+                            selectedProductName: product.productName,
+                            selectedProductPrefix: product.shortCut,
+                            selectedProductMultipleScanLength:
+                              multipleScanLength,
+                            selectedBackgroundColor:
+                              state.backgroundColors[index],
+                            productCount: product.productCount,
+                            selectedProductTotalCountTillNow:
+                              selectedProductTotalCountTillNow,
+                            selectedProductMultipleScanDetails:
+                              typeof product.scanDetails === 'string'
+                                ? JSON.parse(product.scanDetails)
+                                : product.scanDetails,
+                            modalVisible: false,
+                            items: generateItemsArray(multipleScanLength),
+                          }));
 
-                          // navigation.navigate('ProcessItem', {
-                          //   name: `PROCESSING ${product.productName}`,
-                          //   color: state.backgroundColors[index],
-                          // });
-                          // inputRefs.current[0]?.focus();
+                          navigation.navigate('ProcessItem', {
+                            name: `PROCESSING ${product.productName}`,
+                            color: state.backgroundColors[index],
+                          });
+                          inputRefs.current[0]?.focus();
                         },
                       },
                     ])
