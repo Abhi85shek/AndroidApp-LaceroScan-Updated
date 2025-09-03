@@ -12,92 +12,11 @@ import { useRecoilState } from 'recoil';
 const HomeScreen = ({ route, navigation }) => {
 
 
-    const [loginTime,setLoginTime]= useState(null);
-    const [operatorId,setOperatorId] = useState(route.params.user.id);
-    const timeoutRef = useRef(null);
-    // const [timeActivity,setTimeActivity] = useRecoilState(workingActivity);
-    const [loginParams, setLoginParams] = useRecoilState(loginParamsState);
-   
-    // useEffect(() => {
-    //     const resetTimeout = () => {
-    //       if (timeoutRef.current) {
-    //         clearTimeout(timeoutRef.current);
-    //       }
-    //       timeoutRef.current = setTimeout(logout, AUTO_LOGOUT_TIME);
-    //     };
-    
-    //     const logout = () => {
-    //       console.log('User logged out due to inactivity');
-    //       operatorLogOutTime();
-    //       navigation.navigate('LogIn');
-    //     };
-        
-        
-
-    //     const operatorLogOutTime = async ()=>{
-    //       const now = new Date();
-    //       const year = now.getFullYear();
-    //       const month = String(now.getMonth() + 1).padStart(2, '0');
-    //       const day = String(now.getDate()).padStart(2, '0');
-    //       const dateOnly = `${year}-${month}-${day}`;
+    // const [loginTime,setLoginTime]= useState(null);
+    // const [operatorId,setOperatorId] = useState(route.params.user.id);
+    // const timeoutRef = useRef(null);
   
-    //       const data = {
-    //           date:dateOnly,
-    //           role:"operator",
-    //           operatorId:operatorId,
-    //           timeStampId:timeActivity
-    //       }
-        
-    //       // Testing Is Done
-  
-    //       fetch(`${DOMAIN_URL}/insertOperatorLogoutTime`, {
-    //           method: 'POST',
-    //           headers: {
-    //               'Content-Type': 'application/json',
-    //           },
-    //           body: JSON.stringify(data)
-  
-    //       }) .then((response) => {
-              
-    //       })
-    //       .catch((error) => {
-    //           console.error(error);
-    //       });
-    //   };
-  
-
-    //     const handleAppStateChange = (nextAppState) => {
-    //       if (nextAppState === 'active') {
-    //         resetTimeout();
-    //       } else if (nextAppState.match(/inactive|background/)) {
-    //         if (timeoutRef.current) {
-    //           clearTimeout(timeoutRef.current);
-    //         }
-    //       }
-    //     };
-    
-    //     const subscription = AppState.addEventListener('change', handleAppStateChange);
-    
-    //     const panResponder = PanResponder.create({
-    //       onStartShouldSetPanResponder: () => true,
-    //       onMoveShouldSetPanResponder: () => true,
-    //       onPanResponderGrant: () => resetTimeout(),
-    //       onPanResponderMove: () => resetTimeout(),
-    //       onPanResponderRelease: () => resetTimeout(),
-    //       onPanResponderTerminate: () => resetTimeout(),
-    //     });
-    
-    //     resetTimeout();
-    
-    //     return () => {
-    //       if (timeoutRef.current) {
-    //         clearTimeout(timeoutRef.current);
-    //       }
-    //       subscription.remove();
-    //     };
-    //   }, []);
-
-
+    // const [loginParams, setLoginParams] = useRecoilState(loginParamsState);
    
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -117,46 +36,7 @@ const HomeScreen = ({ route, navigation }) => {
         });
       }, [navigation]);
 
-    // const now = new Date();
-    // const year = now.getFullYear();
-    // const month = String(now.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
-    // const day = String(now.getDate()).padStart(2, '0');
-    // const dateOnly = `${year}-${month}-${day}`;
-
-    // const timeOnly = now.toLocaleTimeString();
-
-    // const operatorLoginTime = async ()=>{
-
-    //     const data = {
-
-    //         opeatorId : route.params.user.id,
-    //         role:route.params.user.role,
-    //         loginTime:timeOnly,
-    //         date:dateOnly
-
-    //     }
-        
-    //     fetch(`${DOMAIN_URL}/insertOperatorLoginTime`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(data)
-
-    //     }).then((response) => Promise.all([response.status.toString(), response.json()]))
-    //      .then((res) => {
-    //         if (res[0] === '200') {
-               
-    //             setTimeActivity(res[1].data.id);
-    //             setLoginParams({ operatorId, timeActivity:res[1].data.id });
-
-    //         } 
-    //     })
-    //     .catch((error) => {
-    //         console.error(error);
-    //     });
-    // };
-
+  
 
     useEffect(()=>{
         Toast.show({
@@ -165,10 +45,7 @@ const HomeScreen = ({ route, navigation }) => {
             text2: `Welcome ${route.params.user.firstName}👋`
           });
 
-        // if(route.params.user.role == "operator")
-        //     {
-        //     operatorLoginTime();
-        //     }
+        
         let isMounted = true;
         const setAsyncStorageData = async () => {
             await AsyncStorage.setItem('userName', route.params.user.email);
@@ -176,7 +53,7 @@ const HomeScreen = ({ route, navigation }) => {
             await AsyncStorage.setItem('password', route.params.user.password);
             await AsyncStorage.setItem('token', route.params.user.token);
             await AsyncStorage.setItem('operatorID',JSON.stringify(route.params.user.id));
-            // await AsyncStorage.setItem('workingHours',JSON.stringify(route.params.user.workingHours));
+           
         };
 
     
@@ -188,18 +65,7 @@ const HomeScreen = ({ route, navigation }) => {
 
     },[]);
 
-        // useEffect(() => {
-        //     const fetchData = async () => {
-        //         try {
-        //             const time = await AsyncStorage.getItem('loginTime');
-        //             setLoginTime(time ? new Date(parseInt(time)).toLocaleString() : null);
-        //         } catch (error) {
-        //             console.error('Error fetching login time:', error);
-        //         }
-        //     };
-
-        //     fetchData();
-        // }, []);
+        
 
     const handleNewStock = () => {
       

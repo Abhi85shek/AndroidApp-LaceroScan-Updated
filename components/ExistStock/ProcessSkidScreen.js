@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Keyboard,
   Alert,
-  AppState,
   BackHandler,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -56,8 +55,6 @@ const ProcessSkidScreen = ({route, navigation}) => {
       () => false,
     );
 
-    // const focusListener = navigation.addListener('focus', () => myField2.current.focus());
-
     const fetchData = async () => {
       const token = await AsyncStorage.getItem('token');
       const userName = await AsyncStorage.getItem('userName');
@@ -72,7 +69,7 @@ const ProcessSkidScreen = ({route, navigation}) => {
     getMultipleScanInfo();
     return () => {
       backHandler.remove();
-      // focusListener.current = null;
+      
     };
   }, []);
 
@@ -81,17 +78,12 @@ const ProcessSkidScreen = ({route, navigation}) => {
     productsInSkid,
     multipleScanInfoArray,
   ) => {
-    // console.log("multipleScanInfo from process skid screen Inside navigateToProcessItemScreen",multipleScanInfoArray);
-    // console.log("productsInSkid",productsInSkid);
-    // console.log('skid From Process Skid Screen', skid);
+   
     try {
       await AsyncStorage.setItem('skid', JSON.stringify(skid));
       await AsyncStorage.setItem('productList', JSON.stringify(productsInSkid));
-      await AsyncStorage.setItem(
-        'multipleScanInfo',
-        JSON.stringify(multipleScanInfoArray),
-      );
-      // console.log("Successfully stored multipleScanInfo in AsyncStorage");
+      await AsyncStorage.setItem('multipleScanInfo',JSON.stringify(multipleScanInfoArray));
+    
     } catch (error) {
       console.error('Error storing data in AsyncStorage:', error);
     }
@@ -127,7 +119,7 @@ const ProcessSkidScreen = ({route, navigation}) => {
         },
         body: JSON.stringify({data: extraScanArray}),
       });
-
+      console.log("MultiScanInfo",response)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -142,191 +134,7 @@ const ProcessSkidScreen = ({route, navigation}) => {
     }
   };
 
-  // const handleProcess = async () => {
-  //     NetInfo.fetch().then(state => {
-  //         if (state.isConnected) {
-  //             if (itemCode) {
-  //                 setScanned(true);
-  //                 Keyboard.dismiss();
-  //                 const barCode = itemCode;
-  //                 const token = 'Bearer ' + token;
-
-  //                 fetch(`${DOMAIN_URL}/skid/${barCode}`, {
-  //                     method: 'GET',
-  //                     headers: {
-  //                         'Content-Type': 'application/json',
-  //                         'Authorization': token
-  //                     },
-  //                 })
-  //                 .then((response) => {
-
-  //                     if (response.headers.get("Content-Type").indexOf("application/json") >= 0) {
-  //                         return response.json()
-  //                     }
-  //                     else {
-  //                         // fail.play();
-  //                         Alert.alert(
-  //                             "Error",
-  //                             "Please scan the correct barCode.",
-  //                             [{ text: "OK", onPress: () => { return null; } }]
-  //                         );
-  //                         setScanned(false);
-  //                     }
-  //                 })
-  //                 .then((responseSkidDetail) => {
-  //                     if (responseSkidDetail) {
-  //                         if (responseSkidDetail.data.close_status === "Open" && responseSkidDetail.data.process_status !== "UN_RECEIVE") {
-  //                             fetch(`${DOMAIN_URL}/getProductWithMultipleScanInfo/${responseSkidDetail.data.skidContent}`, {
-  //                                 method: 'GET',
-  //                                 headers: {
-  //                                     'Content-Type': 'application/json',
-  //                                     'Authorization': token
-  //                                 },
-  //                             })
-  //                             .then((response) => response.json())
-  //                             .then((responseJson) => {
-  //                                 console.log("responseJson",responseJson);
-  //                                 if (responseJson && responseJson.message !== undefined && responseJson.message === "Successfully") {
-  //                                     let productsInSkid = [];
-  //                                     var multipleScanInfoArray = [];
-  //                                     let multipleScanIdArray;
-
-  //                                     // Create an array to store all fetch promises
-  //                                     const fetchPromises = [];
-
-  //                                     Object.keys(JSON.parse(responseSkidDetail.data.skidContent)).forEach((key) => {
-  //                                         responseJson.data.forEach((product) => {
-  //                                             if (product.id === Number(key)) {
-
-  //                                                 setMultiScanIdArray(product?.multipleScan ? JSON.parse(product?.multipleScan) : []);
-  //                                                 multipleScanIdArray = product?.multipleScan ? JSON.parse(product?.multipleScan) : [];
-  //                                                 productsInSkid.push(product);
-
-  //                                                 // Add fetch promise to array
-  //                                                 fetchPromises.push(
-  //                                                     fetch(`${DOMAIN_URL}/getScanProductInfoById`, {
-  //                                                         method: "POST",
-  //                                                         headers: {
-  //                                                             "Content-Type": "application/json",
-  //                                                             Authorization: `Bearer ${token}`,
-  //                                                         },
-  //                                                         body: JSON.stringify({ data: multipleScanIdArray }),
-  //                                                     })
-  //                                                     .then((response) => response.json())
-
-  //                                                     .then((responseJson) => {
-  //                                                         if (responseJson && responseJson.message !== undefined && responseJson.message === "Successfully") {
-  //                                                             return responseJson.data;
-  //                                                         }
-  //                                                         return [];
-  //                                                     })
-  //                                                 );
-  //                                             }
-  //                                         });
-  //                                     });
-
-  //                                     // Wait for all fetch requests to complete
-  //                                     Promise.all(fetchPromises)
-  //                                         .then((results) => {
-  //                                             // Flatten the results array and remove duplicates if needed
-  //                                             multipleScanInfoArray = results.flat();
-  //                                             // console.log("Final multipleScanInfoArray:", multipleScanInfoArray);
-
-  //                                             setScanned(false);
-  //                                             setItemCode('');
-  //                                             navigateToProcessItemScreen(responseSkidDetail.data, productsInSkid, multipleScanInfoArray);
-  //                                         })
-  //                                         .catch((error) => {
-  //                                             console.error("Error fetching scan info:", error);
-  //                                             setScanned(false);
-  //                                         });
-  //                                 }
-  //                             })
-  //                             .catch((error) => {
-  //                                 console.error(error);
-  //                                 setScanned(false);
-  //                             });
-  //                         } else if (responseSkidDetail.data.close_status === "Open") {
-  //                             // fail.play();
-  //                             Alert.alert(
-  //                                 'Alert!', 'Please Receive the SKID first before you start scanning items!',
-  //                                 [{ text: "OK", onPress: () =>{
-  //                                     // setItemCode('');
-  //                                     setScanned(false);
-  //                                     // setAppState({ scanning: false, scanned: false, itemCode: '' })
-  //                                 }
-  //                                  }]
-  //                             );
-  //                             setScanned(false);
-  //                         } else if (responseSkidDetail.data.close_status === "Closed" || responseSkidDetail.data.close_status === "Close") {
-  //                             // fail.play();
-  //                             Alert.alert(
-  //                                 'Alert!', 'SKID is already closed!',
-  //                                 [{ text: "OK", onPress: () =>
-  //                                         {
-  //                                             // setItemCode('');
-  //                                             setScanned(false);
-  //                                         }
-  //                                     // setAppState({ scanning: false, scanned: false, itemCode: '' })
-  //                                  }]
-  //                             );
-  //                             setScanned(false);
-  //                         } else {
-
-  //                             if (responseSkidDetail.message === "Please authenticate") {
-  //                                 const data = { email: userName, password: password };
-  //                                 fetch(`${DOMAIN_URL}/login`, {
-  //                                     method: 'POST',
-  //                                     headers: { 'Content-Type': 'application/json' },
-  //                                     body: JSON.stringify(data)
-  //                                 })
-  //                                 .then((response) => Promise.all([response.status.toString(), response.json()]))
-  //                                 .then((res) => {
-  //                                     if (res[0] == 200) {
-  //                                         callHandleUpdateProcess(res[1].data.token);
-  //                                     } else {
-  //                                         navigate('Login');
-  //                                     }
-  //                                 })
-  //                                 .catch((error) => {
-  //                                     console.error(error);
-  //                                 });
-  //                             } else {
-  //                                 // fail.play();
-  //                                 Alert.alert(
-  //                                     responseSkidDetail.message,
-  //                                     (responseSkidDetail.data.process_status) ? `SKID IN: ${responseSkidDetail.data.process_status} Status!` : '',
-  //                                     [{ text: "OK", onPress: () =>
-  //                                             {
-  //                                                 // setItemCode('');
-  //                                                 setScanned(false);
-  //                                             }
-  //                                         // setAppState({ scanning: false, scanned: false, itemCode: '' })
-  //                                      }]
-  //                                 );
-  //                             }
-  //                         }
-  //                     }
-  //                 })
-  //                 .catch((error) => {
-  //                     console.error(error);
-  //                     // setItemCode('');
-  //                     // setAppState({ itemCode: '', scanned: false });
-  //                     setScanned(false);
-  //                     // myField2.focus();
-  //                 });
-  //             }
-  //         } else {
-  //             Alert.alert(
-  //                 "No Internet!",
-  //                 "Needs to connect to the internet in order to work. Please connect tablet to wifi and try again.",
-  //                 [{ text: "OK", onPress: () => {} }]
-  //             );
-  //             setScanned(false);
-  //         }
-  //     });
-  // };
-
+ 
   const handleProcess = async () => {
     try {
       const state = await NetInfo.fetch();
@@ -372,23 +180,10 @@ const ProcessSkidScreen = ({route, navigation}) => {
           responseSkidDetail.data?.close_status === 'Open' &&
           responseSkidDetail.data?.process_status !== 'UN_RECEIVE'
         ) {
-          // const productResponse = await fetch(`${DOMAIN_URL}/getProductWithMultipleScanInfo/${responseSkidDetail.data.skidContent}`, {
-          //   method: 'GET',
-          //   headers: {
-          //     'Content-Type': 'application/json',
-          //     Authorization: token,
-          //   },
-          // });
-
-          // const responseJson = await productResponse.json();
-
-          let productsInSkid;
-          // const fetchPromises = [];
-          // console.log("responseSkidDetail.data.skidContent",responseSkidDetail.data.skidContent);
           const ProductsIdArray = Object.keys(
             JSON.parse(responseSkidDetail.data.skidContent),
           ).map(Number);
-
+          console.log('ProductsIdArray', ProductsIdArray);
           const productResponse = await fetch(
             `${DOMAIN_URL}/getProductWithMultipleScanInfo`,
             {
@@ -404,41 +199,9 @@ const ProcessSkidScreen = ({route, navigation}) => {
             },
           );
           const responseJson = await productResponse.json();
+         
           productsInSkid = responseJson.data;
-          // console.log('productsInSkid', productsInSkid);
-          // const multiScanDetails = JSON.parse(responseJson.data)?.scanDetails;
-          // console.log("multiScanDetails",multiScanDetails);
-          // console.log("responseJson For Particular Product",productsInSkid);
-
-          // console.log("ProductsIdArray",ProductsIdArray);
-          // const totalProducts = responseSkidDetail.data.skidContent.
-          // Object.keys(JSON.parse(responseSkidDetail.data.skidContent)).forEach((key) => {
-          //   ProductsIdArray.forEach((product) => {
-          //     if (product.id === Number(key)) {
-          //       const multipleScanIdArray = product?.multipleScan ? JSON.parse(product.multipleScan) : [];
-          //       console.log("multipleScanIdArray",multipleScanIdArray);
-          //       setMultiScanIdArray(multipleScanIdArray);
-          //       productsInSkid.push(product);
-
-          //       fetchPromises.push(
-          //         fetch(`${DOMAIN_URL}/getScanProductInfoById`, {
-          //           method: "POST",
-          //           headers: {
-          //             "Content-Type": "application/json",
-          //             Authorization: token,
-          //           },
-          //           body: JSON.stringify({ data: multipleScanIdArray }),
-          //         })
-          //           .then((response) => response.json())
-          //           .then((responseJson) => responseJson?.message === "Successfully" ? responseJson.data : [])
-          //       );
-          //     }
-          //   });
-          // });
-
-          // const results = await Promise.all(fetchPromises);
-          // const multipleScanInfoArray = results.flat();
-          // console.log('responseJson.data.scanDetails', responseJson.data);
+          console.log("ProductInSkid",productsInSkid)
           setScanned(false);
           setItemCode('');
           navigateToProcessItemScreen(

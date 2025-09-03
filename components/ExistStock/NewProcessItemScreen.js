@@ -1,24 +1,12 @@
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import Loader from '../Util/Loader';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-  ScrollView,
-  Modal,
-  Image,
-  BackHandler,
-} from 'react-native';
+import {View,Text,StyleSheet,Dimensions,TouchableOpacity,Alert,TextInput,ScrollView,Modal,Image,BackHandler} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import Sound from 'react-native-sound';
 import {DOMAIN_URL} from '../../config/config';
 import ZoomableImage from '../Util/ZoomableImage';
-// import Loader from '../Util/Loader';
+
 
 const ProcessItemScreen = ({navigation, route}) => {
   const success = new Sound('success.wav', Sound.MAIN_BUNDLE);
@@ -71,25 +59,30 @@ const ProcessItemScreen = ({navigation, route}) => {
   useEffect(() => {
     const setup = async () => {
       try {
-        const [token, skid, productList, userName, password] =
+        const [token, skid, productList, userName, password,multipleScanInfo] =
           await Promise.all([
             AsyncStorage.getItem('token'),
             AsyncStorage.getItem('skid'),
             AsyncStorage.getItem('productList'),
             AsyncStorage.getItem('userName'),
             AsyncStorage.getItem('password'),
+            // AsyncStorage.getItem('multipleScanInfo')
+          
           ]);
 
         const backHandler = BackHandler.addEventListener(
           'hardwareBackPress',
           () => false,
         );
-
+        console.log("ProductList",productList);
+        // console.log("Multiple Scan Info",multipleScanInfo);
         const jsonParsedList = JSON.parse(productList) || [];
+        console.log('jsonParsedList', jsonParsedList);
         const parsedSkid = JSON.parse(skid) || {};
         const selectedProduct = jsonParsedList[0] || {};
         const multipleScanLength = selectedProduct.multipleScanLength || 0;
-
+        console.log("MultiScanLength",selectedProduct.multipleScanLength)
+        console.log("Selected Produt Scan Details",selectedProduct.scanDetails)
         setState(prev => ({
           ...prev,
           token,
@@ -108,10 +101,10 @@ const ProcessItemScreen = ({navigation, route}) => {
           ],
           productCount: parsedSkid.productCount || 0,
           selectedProductMultipleScanLength: multipleScanLength,
-          selectedProductMultipleScanDetails: [],
-          // selectedProductMultipleScanDetails: typeof selectedProduct.scanDetails === "string"
-          //   ? JSON.parse(selectedProduct.scanDetails)
-          //   : selectedProduct.scanDetails,
+          // selectedProductMultipleScanDetails: [],
+          selectedProductMultipleScanDetails: typeof selectedProduct.scanDetails === "string"
+            ? JSON.parse(selectedProduct.scanDetails)
+            : selectedProduct.scanDetails,
           items: generateItemsArray(multipleScanLength),
         }));
 
@@ -144,6 +137,7 @@ const ProcessItemScreen = ({navigation, route}) => {
 
   // Get the Count of the Select product Till Now!
 
+  console.log('state.selectedProduct', state.jsonParsedList);
   const getCountOfSelectedProduct = async (skidId, productId) => {
     const response = await fetch(
       `${DOMAIN_URL}/getTotalCountofProductTillNow`,
@@ -278,7 +272,8 @@ const ProcessItemScreen = ({navigation, route}) => {
                       (scan, scanIndex) => (
                         <ZoomableImage
                           key={scanIndex}
-                          source={{uri: scan.imageURL}}
+                          source={{ uri: String(scan.imageUrl)  ? scan.imageUrl : 
+                            require('../Assets/placeholder.png')}}
                           style={{width: 40, height: 40, borderRadius: 20}}
                           resizeMode="contain"
                           label={scan.scanName}
@@ -473,15 +468,15 @@ const ProcessItemScreen = ({navigation, route}) => {
           additionalScan: state.selectedProductMultipleScanDetails.map(scan => {
             return {
               scanName: scan.scanName,
-              scanValue: scan.multiScan_id,
+              scanValue: scan.scanId,
             };
           }),
         },
       };
-      // console.log(
-      //   'Update Status Data',
-      //   JSON.parse(JSON.stringify(data)).data.additionalScan,
-      // );
+      console.log(
+        'Update Status Data',
+        JSON.parse(JSON.stringify(data)).data.additionalScan,
+      );
 
       if (data.data.items.length === 0) {
         Alert.alert('Error', 'No items to process');
@@ -892,7 +887,7 @@ const ProcessItemScreen = ({navigation, route}) => {
                     </Text>
                     {product?.multipleScan && (
                       <Text style={styles.text}>
-                        {JSON.parse(product.multipleScan).length} Extra Scans
+                        {(product.multipleScan).length} Extra Scans
                       </Text>
                     )}
                   </View>
