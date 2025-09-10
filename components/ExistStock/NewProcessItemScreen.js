@@ -362,7 +362,8 @@ const ProcessItemScreen = ({navigation, route}) => {
                 </TouchableOpacity>
               </View>
             </View>
-            {state.selectedProductMultipleScanDetails?.map(
+            {console.log("Selected Product Multiple Scan Details",state.selectedProductMultipleScanDetails)}
+            {state.selectedProductMultipleScanDetails && state.selectedProductMultipleScanDetails[0]?.imageUrl != null && state.selectedProductMultipleScanDetails?.map(
               (scan, scanIndex) => (
                 <View
                   key={scanIndex}
